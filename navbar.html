@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+  <style type="text/css">
+
+.nav {
+  overflow: hidden;
+  background-color: #242424;
+}
+
+.nav a {
+  float: left;
+  display: block;
+  color: black;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.nav a:hover {
+  background-color: #ddd;
+  color: black;
+}
+
+.nav .search-container {
+  float: right;
+}
+
+.nav input[type=text] {
+  padding: 6px;
+  margin-top: 8px;
+  font-size: 17px;
+  border: none;
+}
+
+.nav .search-container button {
+  float: right;
+  padding: 6px 10px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #404040;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+.nav .search-container input {
+	background-color: #4d4d4d
+}
+
+.nav .search-container button:hover {
+  background: #ccc;
+}
+
+  </style>
+
+</head>
+<body style="background-color: #404040">
+
+<div class="nav">
+  <div><a class="active text-white" href="#home" style="font-weight: bold;">TSP</a></div>
+  <a href="#about" class="text-white">Login</a>
+  <div class="search-container">
+    <form action="/action_page.php">
+      <input type="text" placeholder="Search.." name="search">
+      <button type="submit" class="text-white">Go</button>
+    </form>
+  </div>
+</div>
+  
+
+</body>
+</html>
