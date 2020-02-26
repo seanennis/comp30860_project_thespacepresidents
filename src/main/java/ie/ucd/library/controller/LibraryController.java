@@ -27,6 +27,6 @@ public class LibraryController {
 
     @GetMapping("/")
     public String home(Model model) {
-    	return "navbar.html";
+    	return "register.html";
     }
 }
