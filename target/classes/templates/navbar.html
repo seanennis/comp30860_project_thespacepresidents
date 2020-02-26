@@ -12,11 +12,12 @@
 
 .nav {
   overflow: hidden;
+  display: flex;
   background-color: #242424;
 }
 
 .nav a {
-  float: left;
+/*  float: left;*/
   display: block;
   color: black;
   text-align: center;
@@ -65,15 +66,17 @@
 </head>
 <body style="background-color: #404040">
 
-<div class="nav">
-  <div><a class="active text-white" href="#home" style="font-weight: bold;">TSP</a></div>
-  <a href="#about" class="text-white">Login</a>
-  <div class="search-container">
-    <form action="/action_page.php">
-      <input type="text" placeholder="Search.." name="search">
-      <button type="submit" class="text-white">Go</button>
-    </form>
-  </div>
+<div class="container-fluid nav">
+  <nav class="nav">
+    <a class="active text-white" href="#home" style="font-weight: bold;">TSP</a>
+    <a href="#about" class="text-white">Login</a>
+    <div class="search-container pull-right">
+      <form action="/action_page.php">
+        <input type="text" placeholder="Search.." name="search">
+        <button type="submit" class="text-white">Go</button>
+      </form>
+    </div>
+  </nav>
 </div>
   
 
