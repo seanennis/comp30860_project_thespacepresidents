@@ -1,4 +1,4 @@
-package ie.ucd.noteit;
+package ie.ucd.library;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

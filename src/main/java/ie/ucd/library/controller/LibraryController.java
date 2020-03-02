@@ -1,4 +1,4 @@
-package ie.ucd.noteit;
+package ie.ucd.library;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +27,9 @@ public class LibraryController {
 	@Autowired
     private JavaMailSender javaMailSender;
 
+    @Autowired
+    private UserRepository userRepository;
+
 	private Connection conn;
     private Statement stmt;
 
@@ -35,17 +38,30 @@ public class LibraryController {
     	return "register.html";
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "login.html"; 
+    }
+
+    @PostMapping("/register")
+    public String register(@RequestParam(name="name") String name, @RequestParam(name="password") String password, @RequestParam(name="email") String email, @RequestParam(name="dob") String dob) {
+        User newUser = new User(name, password, email, dob);
+        userRepository.save(newUser);
+//        sendEmail(email, newUser.getId());
+        return "register.html";
+    }
+
     @PostMapping("/search")
     public String search(@RequestParam(name="search") String title, Model model) {
     	System.out.println(title);
     	return "searchResults.html";
     }
 
-    void sendEmail(String emailAddress, String id) {
+    void sendEmail(String emailAddress, int id) {
     	SimpleMailMessage msg = new SimpleMailMessage();
     	msg.setTo(emailAddress);
-    	msg.setSubject("Unique ID");
-    	msg.setText("Your unique ID is " + id);
+    	msg.setSubject("Username login");
+    	msg.setText("Your unique Login ID is " + id);
 
     	javaMailSender.send(msg);
     }
