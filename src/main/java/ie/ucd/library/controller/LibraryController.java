@@ -37,19 +37,25 @@ public class LibraryController {
 
     @GetMapping("/")
     public String home(Model model) {
-    	return "register.html";
+        if(session.getCurrentUser() == null) {
+            System.out.println("Test");
+            model.addAttribute("loggedIn", "false");
+        }
+    	return "home.html";
     }
 
     @GetMapping("/login")
     public String loginGet() {
+        if(session.getCurrentUser() == null)
+            model.addAttribute("loggedIn", "false");
         return "login.html"; 
     }
     @PostMapping("/login")
-    public void loginPost(@RequestParam(name="username")String username, @RequestParam(name="password") String password) {
+    public void loginPost(@RequestParam(name="username")String username, @RequestParam(name="password") String password, HttpServletResponse response) throws Exception {
         Optional<User> user = userRepository.findByIdAndPassword(Integer.parseInt(username), password);
         if(user.isPresent()) {
             session.setUser(user.get());
-            System.out.println(user.get().getEmail());
+            response.sendRedirect("/user");
         }
     }
 
@@ -59,11 +65,19 @@ public class LibraryController {
     }
 
     @PostMapping("/register")
-    public String registerPost(@RequestParam(name="name") String name, @RequestParam(name="password") String password, @RequestParam(name="email") String email, @RequestParam(name="dob") String dob) {
+    public void registerPost(@RequestParam(name="name") String name, @RequestParam(name="password") String password, @RequestParam(name="email") String email, @RequestParam(name="dob") String dob, HttpServletResponse response) throws Exception {
         User newUser = new User(name, password, email, dob);
         userRepository.save(newUser);
+        session.setUser(newUser);
 //        sendEmail(email, newUser.getId());
-        return "register.html";
+        response.sendRedirect("/user");
+    }
+
+    @GetMapping("/user")
+    public String userGet(Model model) {
+        User u = session.getCurrentUser();
+        model.addAttribute("user", u);
+        return "user.html";
     }
 
     @PostMapping("/search")
