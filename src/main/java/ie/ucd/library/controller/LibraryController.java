@@ -46,7 +46,7 @@ public class LibraryController {
     }
 
     @GetMapping("/login")
-    public String loginGet() {
+    public String loginGet(Model model) {
         if(session.getCurrentUser() == null)
             model.addAttribute("loggedIn", "false");
         return "login.html"; 
@@ -79,16 +79,6 @@ public class LibraryController {
         User u = session.getCurrentUser();
         model.addAttribute("user", u);
         return "user.html";
-    }
-
-    @PostMapping("/login")
-    public String register(@RequestParam(name="username") int id, @RequestParam(name="password") String password) {
-        String returnPage = "login.html";
-        List<User> userList = userRepository.findAll();
-        for(int i = 0; i < (userList.size()); i++)
-            if(userList.get(i).getId() == id && userList.get(i).getPassword() == password)
-                returnPage = "user.html";
-        return returnPage;
     }
 
     @PostMapping("/search")
