@@ -29,4 +29,10 @@ public class LibraryController {
     public String home(Model model) {
     	return "register.html";
     }
+
+    @PostMapping("/search")
+    public String search(@RequestParam(name="search") String title, Model model) {
+    	System.out.println(title);
+    	return "searchResults.html";
+    }
 }
