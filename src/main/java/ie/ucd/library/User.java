@@ -18,7 +18,7 @@ public class User {
 	@Column private String email;
 	@Column private String password;
 	@Column(name="dob") private String dateOfBirth;
-	@Column private Boolean isLibrarian;
+	@Column private boolean isLibrarian;
 
 	public User() {}
 
@@ -56,10 +56,10 @@ public class User {
 		return this.email;
 	}
 
-	public void setIsLibrarian(Boolean isLibrarian) {
+	public void setIsLibrarian(boolean isLibrarian) {
 		this.isLibrarian = isLibrarian;
 	}
-	public Boolean isLibrarian() {
+	public boolean isLibrarian() {
 		return this.isLibrarian;
 	}
 

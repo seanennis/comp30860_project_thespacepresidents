@@ -15,6 +15,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import java.util.Optional;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
+
 import java.util.List;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
@@ -24,11 +28,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Controller
 public class LibraryController {
 
-	@Autowired
-    private JavaMailSender javaMailSender;
-
-    @Autowired
-    private UserRepository userRepository;
+	@Autowired private JavaMailSender javaMailSender;
+    @Autowired private UserRepository userRepository;
+    @Autowired private Session session;
 
 	private Connection conn;
     private Statement stmt;
@@ -39,12 +41,25 @@ public class LibraryController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String loginGet() {
         return "login.html"; 
+    }
+    @PostMapping("/login")
+    public void loginPost(@RequestParam(name="username")String username, @RequestParam(name="password") String password) {
+        Optional<User> user = userRepository.findByIdAndPassword(Integer.parseInt(username), password);
+        if(user.isPresent()) {
+            session.setUser(user.get());
+            System.out.println(user.get().getEmail());
+        }
+    }
+
+    @GetMapping("/register")
+    public String registerGet() {
+        return "register.html";
     }
 
     @PostMapping("/register")
-    public String register(@RequestParam(name="name") String name, @RequestParam(name="password") String password, @RequestParam(name="email") String email, @RequestParam(name="dob") String dob) {
+    public String registerPost(@RequestParam(name="name") String name, @RequestParam(name="password") String password, @RequestParam(name="email") String email, @RequestParam(name="dob") String dob) {
         User newUser = new User(name, password, email, dob);
         userRepository.save(newUser);
 //        sendEmail(email, newUser.getId());
