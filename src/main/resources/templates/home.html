@@ -5,19 +5,20 @@
         <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}">
         <style>
 	       	body {
-	 			background-image: url(../static/Images/space.jpg);
+	 			background-image: url("../static/Images/space.jpg");
+	 			/*background-image: @{images/logo.png};*/
 			}
        </style>
     </head>
     <body>
-        <div th:replace="navbar.html"></div>
+        <div th:replace="common/navbar.html"></div>
         <div class="row">&nbsp;</div>
         <div class="row">&nbsp;</div>
         <div class="row-">&nbsp;</div>
         <div class="row-lg">
         <div class="col-lg-6"></div>
         	<div class="col-lg-4">
-        		<img src="../static/Images/logo.png" alt="The Space Presidents" style="height:70%" "width:70%">
+        		<img src="../static/Images/logo.png" alt="The Space Presidents" style="height:70%" "width:70%" th:src="@{images/logo.png}">
         	</div>
         </div>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

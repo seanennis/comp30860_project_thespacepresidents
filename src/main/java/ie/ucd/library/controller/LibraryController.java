@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
+import java.util.*;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -35,7 +36,7 @@ public class LibraryController {
 
     @GetMapping("/")
     public String home(Model model) {
-    	return "register.html";
+    	return "home.html";
     }
 
     @GetMapping("/login")
@@ -49,6 +50,16 @@ public class LibraryController {
         userRepository.save(newUser);
 //        sendEmail(email, newUser.getId());
         return "register.html";
+    }
+
+    @PostMapping("/login")
+    public String register(@RequestParam(name="username") int id, @RequestParam(name="password") String password) {
+        String returnPage = "login.html";
+        List<User> userList = userRepository.findAll();
+        for(int i = 0; i < (userList.size()); i++)
+            if(userList.get(i).getId() == id && userList.get(i).getPassword() == password)
+                returnPage = "user.html";
+        return returnPage;
     }
 
     @PostMapping("/search")
