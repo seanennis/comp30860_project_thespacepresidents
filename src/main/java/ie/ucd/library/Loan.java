@@ -11,8 +11,8 @@ import javax.persistence.Table;
 //import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-@Table(name="artifacts")
-public class Artifact {
+@Table(name="loans")
+public class Loan{
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) private int id; 
 	@Column private String name;
 	@Column private String type;
@@ -58,7 +58,14 @@ public class Artifact {
 		return this.owner;
 	}
 
-	public void setIsLibrarian(boolean isLibrarian) {
+	public void setOnLoan(boolean onloan) {
+		this.onloan = onloan;
+	}
+	public boolean onLoan() {
+		return this.onLoan;
+	}
+
+	public void setReserved(boolean setReserved) {
 		this.isLibrarian = isLibrarian;
 	}
 	public boolean isLibrarian() {
