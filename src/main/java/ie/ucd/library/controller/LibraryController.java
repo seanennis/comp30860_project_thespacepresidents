@@ -81,6 +81,7 @@ public class LibraryController {
 
         model.addAttribute("artifacts", artifacts);
         model.addAttribute("searchQuery", search);
+        model.addAttribute("owner", session.getCurrentUser().getId());
 
     	return "searchResults.html";
     }
@@ -93,6 +94,7 @@ public class LibraryController {
 
         model.addAttribute("artifacts", artifacts);
         model.addAttribute("searchQuery", search);
+        model.addAttribute("owner", session.getCurrentUser().getId());
 
         return "searchResults.html";
     }
@@ -104,6 +106,18 @@ public class LibraryController {
             Artifact artifact = artifactOptional.get();
             artifact.setOwner(session.getCurrentUser().getId());
             artifact.setOnLoan(true);
+            artifactRepository.save(artifact);
+        }
+        response.sendRedirect("/search?search="+search);
+    }
+
+    @GetMapping("/reserve")
+    public void reserve(@RequestParam(name="search") String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
+        Optional<Artifact> artifactOptional = artifactRepository.findById(id);
+        if(artifactOptional.isPresent()) {
+            Artifact artifact = artifactOptional.get();
+            artifact.setReserver(session.getCurrentUser().getId());
+            artifact.setReserved(true);
             artifactRepository.save(artifact);
         }
         response.sendRedirect("/search?search="+search);

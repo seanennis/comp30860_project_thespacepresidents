@@ -19,7 +19,7 @@ public class Artifact{
 	@Column(name="ONLOAN") private boolean onLoan;
 	@Column(name="owner") private Integer owner;
 	@Column(name="reserved") private boolean reserved;
-	@Column(name="reserver") private String reserver;
+	@Column(name="reserver") private Integer reserver;
 
 	public Artifact() {}
 
@@ -30,7 +30,7 @@ public class Artifact{
 		this.reserved = false;
 	}
 
-	public Artifact(String name, String type, boolean onLoan, Integer owner, boolean reserved, String reserver) {
+	public Artifact(String name, String type, boolean onLoan, Integer owner, boolean reserved, Integer reserver) {
 		this.name = name;
 		this.type = type;
 		this.onLoan = onLoan;
@@ -74,10 +74,10 @@ public class Artifact{
 		return this.reserved;
 	}
 
-	public void setReserver(String reserver) {
+	public void setReserver(Integer reserver) {
 		this.reserver = reserver;
 	}
-	public String getReserver() {
+	public Integer getReserver() {
 		return this.reserver;
 	}
 }
