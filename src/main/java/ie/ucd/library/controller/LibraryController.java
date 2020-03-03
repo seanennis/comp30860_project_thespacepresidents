@@ -94,7 +94,7 @@ public class LibraryController {
 
         model.addAttribute("artifacts", artifacts);
         model.addAttribute("searchQuery", search);
-        model.addAttribute("owner", session.getCurrentUser().getId());
+        model.addAttribute("currentUser", session.getCurrentUser().getId());
 
         return "searchResults.html";
     }
