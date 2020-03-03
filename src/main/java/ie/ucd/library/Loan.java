@@ -13,19 +13,17 @@ import javax.persistence.Table;
 @Entity
 @Table(name="loans")
 public class Loan{
-	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) private int id; 
+	@Column private int id; 
 	@Column private String name;
-	@Column private String type;
 	@Column private boolean onloan;
 	@Column private String owner;
-	@Column private boolean reserved
+	@Column private boolean reserved;
 	@Column private String reserver;
 
 	public User() {}
 
-	public User(String name, String type, String owner, String reserver) {
-		this.name = name;
-		this.type = type;
+	public User(String owner, String reserver) {
+	
 		this.owner = owner;
 		this.reserver = reserver;
 		this.onloan = false;
@@ -35,20 +33,6 @@ public class Loan{
 
 	public int getId() {
 		return this.id;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getName() {
-		return this.name;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-	public String getType() {
-		return this.type;
 	}
 
 	public void setOwner(String owner) {
@@ -66,10 +50,10 @@ public class Loan{
 	}
 
 	public void setReserved(boolean setReserved) {
-		this.isLibrarian = isLibrarian;
+		this.reserved = reserved;
 	}
-	public boolean isLibrarian() {
-		return this.isLibrarian;
+	public boolean Reserved() {
+		return this.reserved;
 	}
 
 	public void setReserver(String reserver) {
