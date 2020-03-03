@@ -17,14 +17,13 @@ public class Artifact{
 	@Column private String name;
 	@Column private String type;
 
-	public User() {}
+	public Artifact() {}
 
-	public User(String owner, String reserver) {
+	public Artifact(String owner, String reserver) {
 	
-		this.owner = owner;
-		this.reserver = reserver;
-		this.onloan = false;
-		this.reserved = false;
+		this.id = id;
+		this.name = name;
+		this.type = type;
 	}
 
 

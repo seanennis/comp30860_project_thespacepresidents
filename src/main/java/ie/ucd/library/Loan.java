@@ -20,16 +20,20 @@ public class Loan{
 	@Column private boolean reserved;
 	@Column private String reserver;
 
-	public User() {}
+	public Loan() {}
 
-	public User(String owner, String reserver) {
+	public Loan(int id, String owner, String reserver) {
 	
+		this.id = id;
 		this.owner = owner;
 		this.reserver = reserver;
 		this.onloan = false;
 		this.reserved = false;
 	}
 
+	public void setId(int id){
+		this.id = id;
+	}
 
 	public int getId() {
 		return this.id;
@@ -46,7 +50,7 @@ public class Loan{
 		this.onloan = onloan;
 	}
 	public boolean onLoan() {
-		return this.onLoan;
+		return this.onloan;
 	}
 
 	public void setReserved(boolean setReserved) {
