@@ -99,9 +99,6 @@ public class LibraryController {
 
     @GetMapping("/takeOutLoan")
     public void takeOutLoan(@RequestParam(name="search") String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
-        System.out.println(search);
-        System.out.println(id);
-
         Optional<Artifact> artifactOptional = artifactRepository.findById(id);
         if(artifactOptional.isPresent()) {
             Artifact artifact = artifactOptional.get();
