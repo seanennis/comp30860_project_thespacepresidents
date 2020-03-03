@@ -1,9 +1,7 @@
-<<<<<<< HEAD
-=======
 ie\ucd\library\LibraryController.class
 ie\ucd\library\Loan.class
 ie\ucd\library\LibraryApplication.class
 ie\ucd\library\Session.class
+ie\ucd\library\Artifact.class
 ie\ucd\library\UserRepository.class
 ie\ucd\library\User.class
->>>>>>> f893a1ef7b54e97f355f1a6e0c26da400eea207a

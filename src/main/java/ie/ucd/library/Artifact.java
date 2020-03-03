@@ -11,7 +11,7 @@ import javax.persistence.Table;
 //import org.hibernate.annotations.CreationTimestamp;
 
 @Entity
-@Table(name="artifact")
+@Table(name="artifacts")
 public class Artifact{
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) private int id; 
 	@Column private String name;
@@ -24,14 +24,14 @@ public class Artifact{
 		this.type = type;
 	}
 
-	public String setName(String name) {
+	public void setName(String name) {
 		this.name = name;
 	}
 	public String getName(String type) {
 		return this.name;
 	}
 
-	public String setType(String type) {
+	public void setType(String type) {
 		this.type = type;
 	}
 	public String getType() {
