@@ -9,12 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 
-import java.sql.Statement;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
@@ -32,9 +26,6 @@ public class LibraryController {
 	@Autowired private JavaMailSender javaMailSender;
     @Autowired private UserRepository userRepository;
     @Autowired private Session session;
-
-	private Connection conn;
-    private Statement stmt;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -61,7 +52,8 @@ public class LibraryController {
     }
 
     @GetMapping("/register")
-    public String registerGet() {
+    public String registerGet(Model model) {
+        model.addAttribute("loggedIn", "false");
         return "register.html";
     }
 
