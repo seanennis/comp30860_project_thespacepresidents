@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 @Repository
 public interface ArtifactRepository extends JpaRepository<Artifact, Integer> {
-//	Optional<User> findByIdAndPassword(int id, String password);
+	Optional<Artifact> findById(int id);
 }

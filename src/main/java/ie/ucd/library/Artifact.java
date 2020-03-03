@@ -17,7 +17,7 @@ public class Artifact{
 	@Column(name="name") private String name;
 	@Column(name="type") private String type;
 	@Column(name="ONLOAN") private boolean onLoan;
-	@Column(name="owner") private int owner;
+	@Column(name="owner") private Integer owner;
 	@Column(name="reserved") private boolean reserved;
 	@Column(name="reserver") private String reserver;
 
@@ -30,7 +30,7 @@ public class Artifact{
 		this.reserved = false;
 	}
 
-	public Artifact(String name, String type, boolean onLoan, String owner, boolean reserved, String reserver) {
+	public Artifact(String name, String type, boolean onLoan, Integer owner, boolean reserved, String reserver) {
 		this.name = name;
 		this.type = type;
 		this.onLoan = onLoan;
@@ -39,6 +39,9 @@ public class Artifact{
 		this.reserver = reserver;
 	}
 
+	public int getId() {
+		return this.id;
+	}
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -52,10 +55,10 @@ public class Artifact{
 	public String getType() {
 		return this.type;
 	}
-	public void setOwner(int owner) {
+	public void setOwner(Integer owner) {
 		this.owner = owner;
 	}
-	public int getOwner() {
+	public Integer getOwner() {
 		return this.owner;
 	}
 	public void setOnLoan(boolean onLoan) {

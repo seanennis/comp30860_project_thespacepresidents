@@ -74,14 +74,42 @@ public class LibraryController {
     }
 
     @PostMapping("/search")
-    public String search(@RequestParam(name="search") String title, Model model) {
+    public String search(@RequestParam(name="search") String search, Model model) {
         List<Artifact> artifacts = artifactRepository.findAll();
 
         System.out.println(artifacts.get(0).getName());
 
         model.addAttribute("artifacts", artifacts);
+        model.addAttribute("searchQuery", search);
 
     	return "searchResults.html";
+    }
+
+    @GetMapping("/search")
+    public String searchGet(@RequestParam(name="search") String search, Model model) {
+        List<Artifact> artifacts = artifactRepository.findAll();
+
+        System.out.println(artifacts.get(0).getName());
+
+        model.addAttribute("artifacts", artifacts);
+        model.addAttribute("searchQuery", search);
+
+        return "searchResults.html";
+    }
+
+    @GetMapping("/takeOutLoan")
+    public void takeOutLoan(@RequestParam(name="search") String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
+        System.out.println(search);
+        System.out.println(id);
+
+        Optional<Artifact> artifactOptional = artifactRepository.findById(id);
+        if(artifactOptional.isPresent()) {
+            Artifact artifact = artifactOptional.get();
+            artifact.setOwner(session.getCurrentUser().getId());
+            artifact.setOnLoan(true);
+            artifactRepository.save(artifact);
+        }
+        response.sendRedirect("/search?search="+search);
     }
 
     void sendEmail(String emailAddress, int id) {

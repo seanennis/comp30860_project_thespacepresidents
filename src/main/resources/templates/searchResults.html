@@ -49,7 +49,7 @@
                                     <td th:text="${artifact.type}" />
                                     <td th:text="${artifact.name}" />
                                     <span th:if="${artifact.OnLoan} == false">
-                                        <td><a class="btn btn-info" href="/takeOutLoan">Take Out</a></td>
+                                        <td><a class="btn btn-info" th:href="@{/takeOutLoan(search=${searchQuery}, id=${artifact.Id})}">Take Out</a></td>
                                     </span>
                                     <span th:unless="${artifact.OnLoan} == false">
                                         <td><a class="btn btn-danger">Unavailable</a></td>
