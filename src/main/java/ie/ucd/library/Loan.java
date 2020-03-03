@@ -14,7 +14,7 @@ import javax.persistence.Table;
 @Table(name="loans")
 public class Loan {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) private int id; 
-	@Column private String name;
+	@Column private int artifactID;
 	@Column private boolean onloan;
 	@Column private String owner;
 	@Column private boolean reserved;
@@ -22,8 +22,8 @@ public class Loan {
 
 	public Loan() {}
 
-	public Loan(int id, String owner, String reserver) {
-		this.id = id;
+	public Loan(int artifactID, String owner, String reserver) {
+		this.artifactID = artifactID;
 		this.owner = owner;
 		this.reserver = reserver;
 		this.onloan = false;
