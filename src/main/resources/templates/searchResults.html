@@ -45,12 +45,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr th:each="note: ${notes}">
-                                    <td th:text="${#dates.format(note.createdOn, 'dd-MMM YYYY')}" />
-                                    <td th:text="${#dates.format(note.updatedOn, 'dd-MMM YYYY')}" />
-                                    <td th:text="${note.title}" />
-                                    <td style="text-align:center" th:text="${note.version}" />
-                                    <td><a class="btn btn-info" th:href="@{/view(id=${note.id})}">View</a></td>
+                                <tr th:each="artifact: ${artifacts}">
+                                    <td th:text="${artifact.type}" />
+                                    <td th:text="${artifact.name}" />
+                                    <span th:if="${artifact.OnLoan} == false">
+                                        <td><a class="btn btn-info" href="/takeOutLoan">Take Out</a></td>
+                                    </span>
+                                    <span th:unless="${artifact.OnLoan} == false">
+                                        <td><a class="btn btn-danger">Unavailable</a></td>
+                                    </span>
+                                    <span th:if="${artifact.Reserved} == false">
+                                        <td><a class="btn btn-info" href="/reserve">Reserve</a></td>
+                                    </span>
                                 </tr>
                             </tbody>
                         </table>

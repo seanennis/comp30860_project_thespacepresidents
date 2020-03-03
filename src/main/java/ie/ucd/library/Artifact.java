@@ -14,20 +14,35 @@ import javax.persistence.Table;
 @Table(name="artifacts")
 public class Artifact{
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) private int id; 
-	@Column private String name;
-	@Column private String type;
+	@Column(name="name") private String name;
+	@Column(name="type") private String type;
+	@Column(name="ONLOAN") private boolean onLoan;
+	@Column(name="owner") private int owner;
+	@Column(name="reserved") private boolean reserved;
+	@Column(name="reserver") private String reserver;
 
 	public Artifact() {}
 
-	public Artifact(String owner, String reserver) {
+	public Artifact(String name, String type) {
 		this.name = name;
 		this.type = type;
+		this.onLoan = false;
+		this.reserved = false;
+	}
+
+	public Artifact(String name, String type, boolean onLoan, String owner, boolean reserved, String reserver) {
+		this.name = name;
+		this.type = type;
+		this.onLoan = onLoan;
+		this.owner = owner;
+		this.reserved = reserved;
+		this.reserver = reserver;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getName(String type) {
+	public String getName() {
 		return this.name;
 	}
 
@@ -37,5 +52,29 @@ public class Artifact{
 	public String getType() {
 		return this.type;
 	}
+	public void setOwner(int owner) {
+		this.owner = owner;
+	}
+	public int getOwner() {
+		return this.owner;
+	}
+	public void setOnLoan(boolean onLoan) {
+		this.onLoan = onLoan;
+	}
+	public boolean getOnLoan() {
+		return this.onLoan;
+	}
+	public void setReserved(boolean setReserved) {
+		this.reserved = reserved;
+	}
+	public boolean getReserved() {
+		return this.reserved;
+	}
 
+	public void setReserver(String reserver) {
+		this.reserver = reserver;
+	}
+	public String getReserver() {
+		return this.reserver;
+	}
 }

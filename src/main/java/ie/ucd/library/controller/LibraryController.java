@@ -25,12 +25,12 @@ public class LibraryController {
 
 	@Autowired private JavaMailSender javaMailSender;
     @Autowired private UserRepository userRepository;
+    @Autowired private ArtifactRepository artifactRepository;
     @Autowired private Session session;
 
     @GetMapping("/")
     public String home(Model model) {
         if(session.getCurrentUser() == null) {
-            System.out.println("Test");
             model.addAttribute("loggedIn", "false");
         }
     	return "home.html";
@@ -75,7 +75,12 @@ public class LibraryController {
 
     @PostMapping("/search")
     public String search(@RequestParam(name="search") String title, Model model) {
-    	System.out.println(title);
+        List<Artifact> artifacts = artifactRepository.findAll();
+
+        System.out.println(artifacts.get(0).getName());
+
+        model.addAttribute("artifacts", artifacts);
+
     	return "searchResults.html";
     }
 
