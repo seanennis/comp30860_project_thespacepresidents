@@ -31,7 +31,7 @@ public class Loan{
 		this.reserved = false;
 	}
 
-	public int setId(){
+	public void setId(int id){
 		this.id = id;
 	}
 
