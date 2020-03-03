@@ -18,7 +18,7 @@ public class User {
 	@Column private String email;
 	@Column private String password;
 	@Column(name="dob") private String dateOfBirth;
-	@Column private boolean isLibrarian;
+	@Column(name="islibrarian") private boolean isLibrarian;
 
 	public User() {}
 
