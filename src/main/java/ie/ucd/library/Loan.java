@@ -12,8 +12,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="loans")
-public class Loan{
-	@Column private int id; 
+public class Loan {
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) private int id; 
 	@Column private String name;
 	@Column private boolean onloan;
 	@Column private String owner;
@@ -23,7 +23,6 @@ public class Loan{
 	public Loan() {}
 
 	public Loan(int id, String owner, String reserver) {
-	
 		this.id = id;
 		this.owner = owner;
 		this.reserver = reserver;
