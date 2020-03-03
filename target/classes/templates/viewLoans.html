@@ -45,12 +45,23 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr th:each="note: ${notes}">
-                                    <td th:text="${#dates.format(note.createdOn, 'dd-MMM YYYY')}" />
-                                    <td th:text="${#dates.format(note.updatedOn, 'dd-MMM YYYY')}" />
-                                    <td th:text="${note.title}" />
-                                    <td style="text-align:center" th:text="${note.version}" />
-                                    <td><a class="btn btn-info" th:href="@{/view(id=${note.id})}">View</a></td>
+                                <tr th:each="artifact: ${artifacts}">
+                                    <td th:text="${artifact.type}" />
+                                    <td th:text="${artifact.name}" />
+                                    <span th:if="${artifact.OnLoan} == false">
+                                        <td><a class="btn btn-info" th:href="@{/takeOutLoan(search=${searchQuery}, id=${artifact.Id})}">Take Out</a></td>
+                                    </span>
+                                    <span th:unless="${artifact.OnLoan} == false">
+                                        <td><a class="btn btn-danger">Unavailable</a></td>
+                                    </span>
+                                    <span th:if="${artifact.Reserved} == false and ${artifact.OnLoan} == true">
+                                        <span th:if="${owner} != ${artifact.owner}">
+                                            <td><a class="btn btn-info" th:href="@{/reserve(search=${searchQuery}, id=${artifact.Id})}">Reserve</a></td>
+                                        </span>
+                                    </span>
+                                    <span th:unless="${artifact.Reserved} == false and ${artifact.OnLoan} == true">
+                                        <td><a class="btn btn-danger">Unavailable</a></td>
+                                    </span>
                                 </tr>
                             </tbody>
                         </table>
