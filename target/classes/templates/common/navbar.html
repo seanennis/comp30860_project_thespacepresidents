@@ -1,11 +1,12 @@
 <div class="container-fluid nav">
   <nav class="nav">
-    <a class="active text-white" href="/" style="font-weight: bold;">TSP</a>
+    <a class="active text-white" href="/" style="font-weight: bold;">TSP</a> 
     <span th:if="${loggedIn == 'false'}">
       <a href="/login" class="text-white">Login</a>
     </span>
     <span th:if="${loggedIn != 'false'}">
       <a href="/user" class="text-white">Profile</a>
+      <a href="/logout" class="text-white">Logout</a>
     </span>
     <div class="search-container pull-right">
       <form method="POST" action="/search">

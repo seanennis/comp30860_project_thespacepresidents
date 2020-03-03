@@ -99,6 +99,12 @@ public class LibraryController {
         return "searchResults.html";
     }
 
+    @GetMapping("/logout")
+    public void logout(HttpServletResponse response) throws Exception {
+        session.setUser(null);
+        response.sendRedirect("/");
+    }
+
     @GetMapping("/takeOutLoan")
     public void takeOutLoan(@RequestParam(name="search") String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
         Optional<Artifact> artifactOptional = artifactRepository.findById(id);
