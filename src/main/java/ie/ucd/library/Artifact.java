@@ -7,9 +7,6 @@ import javax.persistence.Id;
 import javax.persistence.Column;
 import javax.persistence.Table;
 
-//import java.util.Date;
-//import org.hibernate.annotations.CreationTimestamp;
-
 @Entity
 @Table(name="artifacts")
 public class Artifact{
