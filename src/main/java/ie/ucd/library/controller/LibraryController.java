@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDate;
 import java.util.*;
@@ -77,10 +78,12 @@ public class LibraryController {
     @PostMapping("/search")
     public String search(@RequestParam(name="search") String search, Model model) {
         List<Artifact> artifacts = artifactRepository.findAll();
+        List<Artifact> searchResults = new ArrayList<Artifact>();
+        for(Artifact artifact : artifacts)
+            if(artifact.getType().toLowerCase().contains(search.toLowerCase()) || artifact.getName().toLowerCase().contains(search.toLowerCase()) )
+                searchResults.add(artifact);
 
-        System.out.println(artifacts.get(0).getName());
-
-        model.addAttribute("artifacts", artifacts);
+        model.addAttribute("artifacts", searchResults);
         model.addAttribute("searchQuery", search);
         model.addAttribute("owner", session.getCurrentUser().getId());
 
@@ -90,10 +93,12 @@ public class LibraryController {
     @GetMapping("/search")
     public String searchGet(@RequestParam(name="search") String search, Model model) {
         List<Artifact> artifacts = artifactRepository.findAll();
+         List<Artifact> searchResults = new ArrayList<Artifact>();
+        for(Artifact artifact : artifacts)
+            if(artifact.getType().toLowerCase().contains(search.toLowerCase()) || artifact.getName().toLowerCase().contains(search.toLowerCase()) )
+                searchResults.add(artifact);
 
-        System.out.println(artifacts.get(0).getName());
-
-        model.addAttribute("artifacts", artifacts);
+        model.addAttribute("artifacts", searchResults);
         model.addAttribute("searchQuery", search);
         model.addAttribute("currentUser", session.getCurrentUser().getId());
 
