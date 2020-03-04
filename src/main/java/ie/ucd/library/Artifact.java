@@ -67,7 +67,7 @@ public class Artifact{
 	public boolean getOnLoan() {
 		return this.onLoan;
 	}
-	public void setReserved(boolean setReserved) {
+	public void setReserved(boolean reserved) {
 		this.reserved = reserved;
 	}
 	public boolean getReserved() {
