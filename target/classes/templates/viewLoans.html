@@ -47,10 +47,8 @@
                                 <tr th:each="artifact: ${artifacts}">
                                     <td th:text="${artifact.type}" />
                                     <td th:text="${artifact.name}" />
-                                    <td>Lemon</td>
-                                    <td>Lemon2</td>
-                                    <!--<td th:text="${artifact.dateRecieved}" />
-                                    <td th:text="${artifact.returnDate}" />-->
+                                    <td th:text="${artifact.DateCreated}" />
+                                    <td th:text="${artifact.DateExpires}" />
                                 </tr>
                             </tbody>
                         </table>

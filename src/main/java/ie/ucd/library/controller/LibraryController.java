@@ -102,8 +102,10 @@ public class LibraryController {
 
     @GetMapping("/viewLoans")
     public String searchGet(Model model) {
-        List<Artifact> artifacts = artifactRepository.findAll();
+        /*List<Artifact> artifacts = artifactRepository.findAll();*/
+        List<Artifact> artifacts = artifactRepository.findByOwner(session.getCurrentUser().getId());
         model.addAttribute("artifacts", artifacts);
+        LoanDate loanDate = new LoanDate();
         return "viewLoans.html";
     }
 
@@ -134,10 +136,13 @@ public class LibraryController {
     @GetMapping("/takeOutLoan")
     public void takeOutLoan(@RequestParam(name="search") String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
         Optional<Artifact> artifactOptional = artifactRepository.findById(id);
+        LoanDate loanDate = new LoanDate();
         if(artifactOptional.isPresent()) {
             Artifact artifact = artifactOptional.get();
             artifact.setOwner(session.getCurrentUser().getId());
             artifact.setOnLoan(true);
+            artifact.setDateCreated(loanDate.getLoanDate());
+            artifact.setDateExpires(loanDate.getReturnDate());
             artifactRepository.save(artifact);
         }
         response.sendRedirect("/search?search="+search);

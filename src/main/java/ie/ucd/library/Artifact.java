@@ -20,6 +20,8 @@ public class Artifact{
 	@Column(name="owner") private Integer owner;
 	@Column(name="reserved") private boolean reserved;
 	@Column(name="reserver") private Integer reserver;
+	@Column(name="datecreated") private String dateCreated;
+	@Column(name="dateexpires") private String dateExpires;
 
 	public Artifact() {}
 
@@ -79,5 +81,19 @@ public class Artifact{
 	}
 	public Integer getReserver() {
 		return this.reserver;
+	}
+
+	public void setDateCreated(String dateCreated) {
+		this.dateCreated = dateCreated;
+	}
+	public String getDateCreated() {
+		return this.dateCreated;
+	}
+
+	public void setDateExpires(String dateExpires) {
+		this.dateExpires = dateExpires;
+	}
+	public String getDateExpires() {
+		return this.dateExpires;
 	}
 }
