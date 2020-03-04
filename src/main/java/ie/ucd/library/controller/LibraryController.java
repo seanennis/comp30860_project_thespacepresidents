@@ -88,7 +88,7 @@ public class LibraryController {
         if(session.getCurrentUser() == null)
             model.addAttribute("loggedIn", "false");
         else
-            model.addAttribute("owner", session.getCurrentUser().getId());
+            model.addAttribute("currentUser", session.getCurrentUser().getId());
 
     	return "searchResults.html";
     }
