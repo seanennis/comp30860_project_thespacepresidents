@@ -4,7 +4,7 @@
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}">
     </head>
-    <body>
+    <body style="background-color:#343434;">
        <div th:replace="common/navbar.html"></div>
         <div class="container">
             <div class="row">
@@ -19,7 +19,7 @@
             <div class="row">
                 <div class="col-lg-5"></div>
                 <div class="col-lg-2">
-                    <h2 style="padding-left:5%">Info</h2>
+                    <h2 style="padding-left:45%;color: white;">Info</h2>
                 </div>
             </div>
         </div>
@@ -31,10 +31,10 @@
                 <div class="row">
                     <div class="col-lg-4"></div>
                     <div class="col-lg-2 align-self-center">
-                        <label class="font-weight-bold" for="title">ID:</label>
+                        <label style="color: white;" class="font-weight-bold" for="title">ID:</label>
                     </div>
                     <div class="col-lg-6">
-                        <span class="text-nowrap" th:text="${user.id}"></span>
+                        <span style="color: white;" class="text-nowrap" th:text="${user.id}"></span>
                     </div>
                 </div>
                 <div class="row">
@@ -43,10 +43,10 @@
                 <div class="row">
                     <div class="col-lg-4"></div>
                     <div class="col-lg-2 align-self-center">
-                        <label class="font-weight-bold" for="title">Name:</label>
+                        <label style="color: white; "class="font-weight-bold" for="title">Name:</label>
                     </div>
                     <div class="col-lg-6">
-                        <span class="text-nowrap" th:text="${user.name}"></span>
+                        <span style="color: white;" class="text-nowrap" th:text="${user.name}"></span>
                     </div>
                 </div>
                 <div class="row">
@@ -55,10 +55,10 @@
                  <div class="row">
                      <div class="col-lg-4"></div>
                     <div class="col-lg-2 align-self-center">
-                        <label class="font-weight-bold" for="title">Email:</label>
+                        <label style="color: white;" class="font-weight-bold" for="title">Email:</label>
                     </div>
                     <div class="col-lg-6">
-                        <span class="text-nowrap" th:text="${user.email}"></span>
+                        <span style="color: white;" class="text-nowrap" th:text="${user.email}"></span>
                     </div>
                 </div>
                 <div class="row">
@@ -67,10 +67,10 @@
                  <div class="row">
                     <div class="col-lg-4"></div>
                     <div class="col-lg-2 align-self-center">
-                        <label class="font-weight-bold" for="title">DOB:</label>
+                        <label style="color: white;" class="font-weight-bold" for="title">DOB:</label>
                     </div>
                     <div class="col-lg-6">
-                        <span class="text-nowrap" th:text="${user.dateOfBirth}"></span>
+                        <span style="color: white;" class="text-nowrap" th:text="${user.dateOfBirth}"></span>
                     </div>
                 </div>
                  <div class="row">
@@ -79,10 +79,10 @@
                  <div class="row">
                     <div class="col-lg-4"></div>
                     <div class="col-lg-2 align-self-center">
-                        <label class="font-weight-bold" for="title">Password:</label>
+                        <label style="color: white;" class="font-weight-bold" for="title">Password:</label>
                     </div>
                     <div class="col-lg-6">
-                        <span class="text-nowrap" th:text="${user.password}"></span>
+                        <span style="color: white;" class="text-nowrap" th:text="${user.password}"></span>
                     </div>
                 </div>
                 <div class="row">

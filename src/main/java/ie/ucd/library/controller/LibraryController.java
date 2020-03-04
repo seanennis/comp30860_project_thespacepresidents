@@ -85,7 +85,10 @@ public class LibraryController {
 
         model.addAttribute("artifacts", searchResults);
         model.addAttribute("searchQuery", search);
-        model.addAttribute("owner", session.getCurrentUser().getId());
+        if(session.getCurrentUser() == null)
+            model.addAttribute("loggedIn", "false");
+        else
+            model.addAttribute("owner", session.getCurrentUser().getId());
 
     	return "searchResults.html";
     }
@@ -100,7 +103,10 @@ public class LibraryController {
 
         model.addAttribute("artifacts", searchResults);
         model.addAttribute("searchQuery", search);
-        model.addAttribute("currentUser", session.getCurrentUser().getId());
+        if(session.getCurrentUser() == null)
+            model.addAttribute("loggedIn", "false");
+        else
+            model.addAttribute("currentUser", session.getCurrentUser().getId());
 
         return "searchResults.html";
     }

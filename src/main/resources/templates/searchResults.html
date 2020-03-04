@@ -11,7 +11,7 @@
             }
         </style>
     </head>
-    <body>
+    <body  style="background-color:#343434;">
         <div th:replace="common/navbar.html"></div>
         <div class="container">
             <div class="row">
@@ -37,17 +37,19 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>Artifact Type</th>
-                                    <th>Title</th>
-                                    <th>Owner</th>
-                                    <th>Renewable</th>
+                                    <th style="color: white;" >Artifact Type</th>
+                                    <th style="color: white;" >Title</th>
+                                    <th style="color: white;" >Loan</th>
+                                    <th style="color: white;" >Reserve</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="artifact: ${artifacts}">
-                                    <td th:text="${artifact.type}" />
-                                    <td th:text="${artifact.name}" />
+                                    <td style="color: white;"  th:text="${artifact.type}" />
+                                    <td style="color: white;"  th:text="${artifact.name}" />
+                                <span th:if="${loggedIn != 'false'}">
+                                    <!-- Button for taking pout loan -->
                                     <span th:if="${artifact.OnLoan} == false">
                                         <td><a class="btn btn-info" th:href="@{/takeOutLoan(search=${searchQuery}, id=${artifact.Id})}">Take Out</a></td>
                                     </span>
@@ -55,6 +57,7 @@
                                         <td><a class="btn btn-danger">Unavailable</a></td>
                                     </span>
 
+                                    <!-- Button for reserving -->
                                     <span th:if="${artifact.Reserved} == false and ${artifact.OnLoan} == true">
                                         <span th:if="${currentUser} != ${artifact.owner}">
                                             <td><a class="btn btn-info" th:href="@{/reserve(search=${searchQuery}, id=${artifact.Id})}">Reserve</a></td>
@@ -66,6 +69,13 @@
                                     <span th:unless="${artifact.Reserved} == false and ${artifact.OnLoan} == true">
                                         <td><a class="btn btn-danger">Unavailable</a></td>
                                     </span>
+                                </span>
+                                <span th:unless = "${loggedIn != 'false'}">
+                                 <!-- Button for taking pout loan -->
+                                    <td><a class="btn btn-info" href="/login">Login</a></td>
+
+                                    <td><a class="btn btn-info" href="/login">Login</a></td>
+                                </span>
                                 </tr>
                             </tbody>
                         </table>
