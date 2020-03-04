@@ -1,9 +1,9 @@
 <div class="container-fluid nav">
   <nav class="nav">
-    <a class="active text-white" href="/" style="font-weight: bold;">TSP</a> 
+    <span><a class="active text-white" href="/" style="font-weight: bold;">TSP</a> </span>
     <span th:if="${loggedIn == 'false'}">
-      <a href="/login" class="text-white">Login</a>
-      <a href="/register" class="text-white">Register</a>
+      <a href="/login" style="font-weight: bold;" class="text-white">Login</a>
+      <a href="/register" style="font-weight: bold;" class="text-white">Register</a>
     </span>
     <span th:if="${loggedIn != 'false'}">
       <a href="/user" class="text-white">Profile</a>
