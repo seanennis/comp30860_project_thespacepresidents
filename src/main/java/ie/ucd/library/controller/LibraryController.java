@@ -105,6 +105,13 @@ public class LibraryController {
         response.sendRedirect("/");
     }
 
+    @GetMapping("/edit")
+    public String edit(HttpServletResponse response, Model model) throws Exception {
+        User u = session.getCurrentUser();
+        model.addAttribute("user", u);
+        return "edit.html";
+    }
+
     @GetMapping("/takeOutLoan")
     public void takeOutLoan(@RequestParam(name="search") String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
         Optional<Artifact> artifactOptional = artifactRepository.findById(id);
