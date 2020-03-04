@@ -58,7 +58,8 @@ public class LibraryController {
     }
 
     @PostMapping("/register")
-    public void registerPost(@RequestParam(name="name") String name, @RequestParam(name="password") String password, @RequestParam(name="email") String email, @RequestParam(name="dob") String dob, HttpServletResponse response) throws Exception {
+    public void registerPost(@RequestParam(name="name") String name, @RequestParam(name="password") String password, @RequestParam(name="email") String email,
+     @RequestParam(name="dob") String dob, HttpServletResponse response) throws Exception {
         User newUser = new User(name, password, email, dob);
         userRepository.save(newUser);
         session.setUser(newUser);
@@ -105,8 +106,17 @@ public class LibraryController {
         response.sendRedirect("/");
     }
 
+    @PostMapping("/edit")
+    public void edit(@RequestParam(name="name") String name, @RequestParam(name="password") String password, @RequestParam(name="email") String email,
+     @RequestParam(name="dob") String dob, HttpServletResponse response) throws Exception {
+        User newUser = new User(name, password, email, dob);
+        userRepository.save(newUser);
+        session.setUser(newUser);
+        response.sendRedirect("/user");
+    }
+
     @GetMapping("/edit")
-    public String edit(HttpServletResponse response, Model model) throws Exception {
+    public String edit(Model model) {
         User u = session.getCurrentUser();
         model.addAttribute("user", u);
         return "edit.html";
