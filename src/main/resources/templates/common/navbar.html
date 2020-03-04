@@ -3,12 +3,13 @@
     <a class="active text-white" href="/" style="font-weight: bold;">TSP</a> 
     <span th:if="${loggedIn == 'false'}">
       <a href="/login" class="text-white">Login</a>
+      <a href="/register" class="text-white">Register</a>
     </span>
     <span th:if="${loggedIn != 'false'}">
       <a href="/user" class="text-white">Profile</a>
       <a href="/logout" class="text-white">Logout</a>
     </span>
-    <div class="search-container pull-right">
+    <div class="search-container pull-right" style="padding-left:20px; padding-top:5px">
       <form method="POST" action="/search">
         <input type="text" placeholder="Search.." name="search">
         <button type="submit" class="text-white">Go</button>
