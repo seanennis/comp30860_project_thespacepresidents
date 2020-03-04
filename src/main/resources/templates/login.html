@@ -5,7 +5,7 @@
         <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}">
        </style>
     </head>
-    <body>
+    <body style="background-color:#343434;">
        <div th:replace="common/navbar.html"></div>
         <div class="container">
             <div class="row">
@@ -32,7 +32,7 @@
                 <div class="row">
                      <div class="col-lg-4"></div>
                     <div class="col-lg-1 align-self-center">
-                        <label for="title">Username:</label>
+                        <label style="color: white;" for="title">Username:</label>
                     </div>
                     <div class="col-lg-4">
                         <input type="text" style="width:200px" name="username" class="form-control">
@@ -44,7 +44,7 @@
                    <div class="row">
                      <div class="col-lg-4"></div>
                     <div class="col-lg-1 align-self-center">
-                        <label for="title">Password:</label>
+                        <label style="color: white;" for="title">Password:</label>
                     </div>
                     <div class="col-lg-4">
                         <input type="password" style="width:200px" name="password" class="form-control">
@@ -56,7 +56,7 @@
                 <div class="row">
                     <div class="col-lg-6"></div>
                     <div class="col-lg-2">
-                        <button type="submit" style="width:105px" class="btn btn-primary">Log In</button>
+                        <button type="submit" style="width:105px;" class="btn btn-primary">Log In</button>
                     </div>
                 </div>
             </div>
@@ -66,7 +66,7 @@
             <div class="row">
                 <div class="col-lg-5"></div>
                 <div class="col-lg-4">
-                    <a href="/register"> Not a Member? Sign Up Here</a>
+                    <a style="color: white;" href="/register"> Not a Member? Sign Up Here</a>
                 </div>
             </div>
         </form>
