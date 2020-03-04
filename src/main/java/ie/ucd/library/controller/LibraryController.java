@@ -109,9 +109,11 @@ public class LibraryController {
     @PostMapping("/edit")
     public void edit(@RequestParam(name="name") String name, @RequestParam(name="password") String password, @RequestParam(name="email") String email,
      @RequestParam(name="dob") String dob, HttpServletResponse response) throws Exception {
-        User newUser = new User(name, password, email, dob);
-        userRepository.save(newUser);
-        session.setUser(newUser);
+        User user = session.getCurrentUser();
+        user.setName(name);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.setDateOfBirth(dob);
         response.sendRedirect("/user");
     }
 
