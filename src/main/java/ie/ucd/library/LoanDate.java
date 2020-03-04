@@ -1,9 +1,10 @@
 package ie.ucd.library;
 
-import java.time.format.DateTimeFormatter;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -21,4 +22,14 @@ public class LoanDate {
 		Date date = calendar.getTime();
 		return dateFormat.format(date);
 	}
+
+    public static String getDate(String date, int numOfDays) throws ParseException {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date currDate = dateFormat.parse(date);
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(currDate);
+        calendar.add(Calendar.DAY_OF_YEAR, numOfDays);
+        Date newDate = calendar.getTime();
+        return dateFormat.format(newDate);
+    }
 }
