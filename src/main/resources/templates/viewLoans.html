@@ -39,29 +39,18 @@
                                 <tr>
                                     <th>Artifact Type</th>
                                     <th>Title</th>
-                                    <th>Owner</th>
-                                    <th>Renewable</th>
-                                    <th></th>
+                                    <th>Date Recieved</th>
+                                    <th>Return By</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr th:each="artifact: ${artifacts}">
                                     <td th:text="${artifact.type}" />
                                     <td th:text="${artifact.name}" />
-                                    <span th:if="${artifact.OnLoan} == false">
-                                        <td><a class="btn btn-info" th:href="@{/takeOutLoan(search=${searchQuery}, id=${artifact.Id})}">Take Out</a></td>
-                                    </span>
-                                    <span th:unless="${artifact.OnLoan} == false">
-                                        <td><a class="btn btn-danger">Unavailable</a></td>
-                                    </span>
-                                    <span th:if="${artifact.Reserved} == false and ${artifact.OnLoan} == true">
-                                        <span th:if="${owner} != ${artifact.owner}">
-                                            <td><a class="btn btn-info" th:href="@{/reserve(search=${searchQuery}, id=${artifact.Id})}">Reserve</a></td>
-                                        </span>
-                                    </span>
-                                    <span th:unless="${artifact.Reserved} == false and ${artifact.OnLoan} == true">
-                                        <td><a class="btn btn-danger">Unavailable</a></td>
-                                    </span>
+                                    <td>Lemon</td>
+                                    <td>Lemon2</td>
+                                    <!--<td th:text="${artifact.dateRecieved}" />
+                                    <td th:text="${artifact.returnDate}" />-->
                                 </tr>
                             </tbody>
                         </table>

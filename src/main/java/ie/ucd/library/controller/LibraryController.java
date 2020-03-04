@@ -105,6 +105,13 @@ public class LibraryController {
         return "searchResults.html";
     }
 
+    @GetMapping("/viewLoans")
+    public String searchGet(Model model) {
+        List<Artifact> artifacts = artifactRepository.findAll();
+        model.addAttribute("artifacts", artifacts);
+        return "viewLoans.html";
+    }
+
     @GetMapping("/logout")
     public void logout(HttpServletResponse response) throws Exception {
         session.setUser(null);
