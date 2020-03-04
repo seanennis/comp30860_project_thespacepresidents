@@ -28,6 +28,7 @@ public class LibraryController {
     @Autowired private UserRepository userRepository;
     @Autowired private ArtifactRepository artifactRepository;
     @Autowired private Session session;
+    @Autowired private LoanRepository loanRepository;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -112,12 +113,25 @@ public class LibraryController {
     }
 
     @GetMapping("/viewLoans")
-    public String searchGet(Model model) {
+    public String getLoans(Model model) {
         /*List<Artifact> artifacts = artifactRepository.findAll();*/
         List<Artifact> artifacts = artifactRepository.findByOwner(session.getCurrentUser().getId());
         model.addAttribute("artifacts", artifacts);
-        LoanDate loanDate = new LoanDate();
         return "viewLoans.html";
+    }
+
+    @GetMapping("/loanHistory")
+    public String getLoanHistory(Model model) {
+        /*List<Artifact> artifacts = artifactRepository.findAll();*/
+        List<Loan> loans = loanRepository.findByOwner(session.getCurrentUser().getId());
+        List<Loan> loanHistory = new ArrayList<>();
+        System.out.println();
+        for(Loan loan : loans) {
+            if(!loan.getActive())
+                loanHistory.add(loan);
+        }
+        model.addAttribute("loans", loanHistory);
+        return "loanHistory.html";
     }
 
     @GetMapping("/logout")
@@ -154,7 +168,9 @@ public class LibraryController {
             artifact.setOnLoan(true);
             artifact.setDateCreated(loanDate.getLoanDate());
             artifact.setDateExpires(loanDate.getReturnDate());
+            Loan loan = new Loan(artifact.getOwner(), artifact.getName(), artifact.getDateCreated(), artifact.getDateExpires(), artifact.getType());
             artifactRepository.save(artifact);
+            loanRepository.save(loan);
         }
         response.sendRedirect("/search?search="+search);
     }
