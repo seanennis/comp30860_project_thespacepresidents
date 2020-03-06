@@ -36,6 +36,10 @@ public class LibraryController {
     public String home(Model model) {
         if(session.getCurrentUser() == null) {
             model.addAttribute("loggedIn", "false");
+            model.addAttribute("isLibrarian", "false");
+        }
+        else {
+            model.addAttribute("isLibrarian", session.getCurrentUser().isLibrarian());
         }
     	return "home.html";
     }
@@ -47,10 +51,11 @@ public class LibraryController {
         return "login.html"; 
     }
     @PostMapping("/login")
-    public void loginPost(@RequestParam(name="username")String username, @RequestParam(name="password") String password, HttpServletResponse response) throws Exception {
+    public void loginPost(@RequestParam(name="username")String username, @RequestParam(name="password") String password, HttpServletResponse response, Model model) throws Exception {
         Optional<User> user = userRepository.findByIdAndPassword(Integer.parseInt(username), password);
         if(user.isPresent()) {
             session.setUser(user.get());
+            model.addAttribute("isLibrarian", user.get().isLibrarian());
             response.sendRedirect("/user");
         }
     }
@@ -75,6 +80,8 @@ public class LibraryController {
     public String userGet(Model model) {
         User u = session.getCurrentUser();
         model.addAttribute("user", u);
+        System.out.println(session.getCurrentUser().isLibrarian());
+        model.addAttribute("isLibrarian", session.getCurrentUser().isLibrarian());
         return "user.html";
     }
 
@@ -102,6 +109,7 @@ public class LibraryController {
 
         model.addAttribute("artifacts", searchResults);
         model.addAttribute("searchQuery", search);
+        model.addAttribute("isLibrarian", session.getCurrentUser().isLibrarian());
         if(session.getCurrentUser() == null)
             model.addAttribute("loggedIn", "false");
         else
@@ -120,6 +128,7 @@ public class LibraryController {
 
         model.addAttribute("artifacts", searchResults);
         model.addAttribute("searchQuery", search);
+        model.addAttribute("isLibrarian", session.getCurrentUser().isLibrarian());
         if(session.getCurrentUser() == null)
             model.addAttribute("loggedIn", "false");
         else
@@ -189,6 +198,15 @@ public class LibraryController {
             loanRepository.save(loan);
         }
         response.sendRedirect("/search?search="+search);
+    }
+
+    @GetMapping("/delete")
+    public void deleteArtifact(@RequestParam(name="search") String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception{
+       Optional<Artifact> artifact = artifactRepository.findById(id);
+        if(artifact.isPresent()) {
+            artifactRepository.deleteById(artifact.get().getId());
+        }
+       response.sendRedirect("/search?search="+search);
     }
 
     @GetMapping("/reserve")
