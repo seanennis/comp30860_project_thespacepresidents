@@ -16,17 +16,23 @@ public class Artifact{
 	@Column(name="ONLOAN") private boolean onLoan;
 	@Column(name="owner") private Integer owner;
 	@Column(name="reserved") private boolean reserved;
+	@Column(name="renewed") private boolean renewed;
 	@Column(name="reserver") private Integer reserver;
 	@Column(name="datecreated") private String dateCreated;
 	@Column(name="dateexpires") private String dateExpires;
 
-	public Artifact() {}
+	public Artifact() {
+		this.onLoan = false;
+		this.reserved = false;
+		this.renewed = false;
+	}
 
 	public Artifact(String name, String type) {
 		this.name = name;
 		this.type = type;
 		this.onLoan = false;
 		this.reserved = false;
+		this.renewed = false;
 	}
 
 	public Artifact(String name, String type, boolean onLoan, Integer owner, boolean reserved, Integer reserver) {
@@ -71,6 +77,13 @@ public class Artifact{
 	}
 	public boolean getReserved() {
 		return this.reserved;
+	}
+
+	public void setRenewed(boolean renewed) {
+		this.renewed = renewed;
+	}
+	public boolean getRenewed() {
+		return this.renewed;
 	}
 
 	public void setReserver(Integer reserver) {

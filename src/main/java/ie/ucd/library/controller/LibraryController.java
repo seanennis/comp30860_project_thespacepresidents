@@ -187,6 +187,18 @@ public class LibraryController {
         response.sendRedirect("/search?search="+search);
     }
 
+    @GetMapping("/renew")
+    public void renew(String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
+        Optional<Artifact> artifactOptional = artifactRepository.findById(id);
+        if(artifactOptional.isPresent()) {
+            Artifact artifact = artifactOptional.get();
+            artifact.setRenewed(true);
+            artifact.setDateExpires(LoanDate.getDate(artifact.getDateExpires(), 7));
+            artifactRepository.save(artifact);
+        }
+        response.sendRedirect("/viewLoans");
+    }
+
     void sendEmail(String emailAddress, int id) {
     	SimpleMailMessage msg = new SimpleMailMessage();
     	msg.setTo(emailAddress);
