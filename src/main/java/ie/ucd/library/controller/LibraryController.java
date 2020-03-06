@@ -22,6 +22,8 @@ import java.util.*;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.sql.SQLException;
+
 @Controller
 public class LibraryController {
 
@@ -75,6 +77,20 @@ public class LibraryController {
         User u = session.getCurrentUser();
         model.addAttribute("user", u);
         return "user.html";
+    }
+
+    @GetMapping("/addArtifact")
+    public String addArtifactGet() {
+        return "addArtifact.html";
+    }
+
+    @PostMapping("/addArtifact")
+    public String addArtifactPost(@RequestParam(name="name") String name, @RequestParam(name="type") String type) throws SQLException {
+        Artifact artifact = new Artifact();
+        artifact.setName(name);
+        artifact.setType(type);
+        artifactRepository.save(artifact);
+        return "addArtifact.html";
     }
 
     @PostMapping("/search")
