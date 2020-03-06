@@ -69,6 +69,9 @@
                                     <span th:unless="${artifact.Reserved} == false and ${artifact.OnLoan} == true">
                                         <td><a class="btn btn-danger">Unavailable</a></td>
                                     </span>
+                                    <span th:if="${isLibrarian} == true">>
+                                    <td><a class="btn btn-danger" th:href="@{/delete(search=${searchQuery}, id=${artifact.Id})}">Delete</a></td>
+                                    </span>
                                 </span>
                                 <span th:unless = "${loggedIn != 'false'}">
                                  <!-- Button for taking pout loan -->
