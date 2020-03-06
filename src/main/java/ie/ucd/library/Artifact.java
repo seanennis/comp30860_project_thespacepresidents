@@ -113,14 +113,14 @@ public class Artifact implements Comparable<Artifact>{
 			return 1;
 		else{
 			if(!this.getOnLoan() && a.getOnLoan())
-				return -1;
-			else if(this.getOnLoan() && !a.getOnLoan())
 				return 1;
+			else if(this.getOnLoan() && !a.getOnLoan())
+				return -1;
 			else {
 				if(!this.getReserved() && a.getReserved())
-					return -1;
-				else if(this.getReserved() && !a.getReserved())
 					return 1;
+				else if(this.getReserved() && !a.getReserved())
+					return -1;
 				else
 					return 0;
 			}

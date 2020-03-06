@@ -219,39 +219,52 @@ public class LibraryController {
     void removeDuplicates(List<Artifact> artifacts) {
         int i;
 
-        /*for(Artifact a : artifacts)
-            System.out.println(a.getName() + ", " + a.getOnLoan());*/
+        for(Artifact a : artifacts)
+            System.out.println(a.getName() + ", " + a.getOnLoan() + ", " + a.getOwner());
+        System.out.println();
 
         for(i = 0;i < artifacts.size()-1;i++) {
             Integer owner = artifacts.get(i).getOwner();
             Integer reserver = artifacts.get(i).getReserver();
+  
+            System.out.println("i: " + i);
+            System.out.println("Owner: " + owner + ", reserver: " + reserver);
+
             boolean ownerFound = false;
             boolean reserverFound = false;
 
-            if(owner != null)
-                ownerFound = true;
-            if(reserver != null)
-                reserverFound = true;
+            if(owner != null) {
+                if(owner == session.getCurrentUserId())
+                    ownerFound = true;
+            }
+            if(reserver != null) {
+                if(reserver == session.getCurrentUserId())
+                    reserverFound = true;
+            }
 
 
             if(ownerFound || reserverFound) {
+                System.out.println(session.getCurrentUserId());
                 int j = i;
                 while(artifacts.get(j + 1).getArtifactId() == artifacts.get(j).getArtifactId()) {
                     Artifact temp = artifacts.get(j + 1);
                     artifacts.set(j + 1, artifacts.get(j));
                     artifacts.set(j, temp);
+                    j++;
                 }
             }
         }
 
-        /*for(Artifact a : artifacts)
-            System.out.println(a.getName() + ", " + a.getOnLoan());*/
+        for(Artifact a : artifacts)
+            System.out.println(a.getName() + ", " + a.getOnLoan());
+        System.out.println();
 
         for(i = artifacts.size()-1;i > 0;i--)
             if(artifacts.get(i).getArtifactId() == artifacts.get(i - 1).getArtifactId())
                 artifacts.remove(i - 1);
 
-        /*for(Artifact a : artifacts)
-            System.out.println(a.getName() + ", " + a.getOnLoan());*/
+        for(Artifact a : artifacts)
+            System.out.println(a.getName() + ", " + a.getOnLoan());
+        System.out.println();
     }
 }
