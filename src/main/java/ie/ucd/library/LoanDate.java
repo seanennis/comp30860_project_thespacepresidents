@@ -32,4 +32,11 @@ public class LoanDate {
         Date newDate = calendar.getTime();
         return dateFormat.format(newDate);
     }
+
+    public boolean beenRenewed(String dateCreated, String dateExpires) throws ParseException {
+    	boolean renewed = false;
+    	if(dateExpires == LoanDate.getDate(dateCreated, 14))
+    		renewed = true;
+    	return renewed;
+    }
 }

@@ -9,27 +9,36 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="artifacts")
-public class Artifact{
+public class Artifact implements Comparable<Artifact>{
+
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) private int id; 
+	@Column(name="artifact_id") private int artifactId;
 	@Column(name="name") private String name;
 	@Column(name="type") private String type;
 	@Column(name="ONLOAN") private boolean onLoan;
 	@Column(name="owner") private Integer owner;
 	@Column(name="reserved") private boolean reserved;
+	@Column(name="renewed") private boolean renewed;
 	@Column(name="reserver") private Integer reserver;
 	@Column(name="datecreated") private String dateCreated;
 	@Column(name="dateexpires") private String dateExpires;
 
-	public Artifact() {}
+	public Artifact() {
+		this.onLoan = false;
+		this.reserved = false;
+		this.renewed = false;
+	}
 
 	public Artifact(String name, String type) {
 		this.name = name;
 		this.type = type;
 		this.onLoan = false;
 		this.reserved = false;
+		this.renewed = false;
 	}
 
-	public Artifact(String name, String type, boolean onLoan, Integer owner, boolean reserved, Integer reserver) {
+	public Artifact(int artifactId, String name, String type, boolean onLoan, Integer owner, boolean reserved, Integer reserver) {
+		this.artifactId = artifactId;
 		this.name = name;
 		this.type = type;
 		this.onLoan = onLoan;
@@ -41,6 +50,14 @@ public class Artifact{
 	public int getId() {
 		return this.id;
 	}
+
+	public void setArtifactId(int artifactId) {
+		this.artifactId = artifactId;
+	}
+	public int getArtifactId() {
+		return this.artifactId;
+	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -73,6 +90,13 @@ public class Artifact{
 		return this.reserved;
 	}
 
+	public void setRenewed(boolean renewed) {
+		this.renewed = renewed;
+	}
+	public boolean getRenewed() {
+		return this.renewed;
+	}
+
 	public void setReserver(Integer reserver) {
 		this.reserver = reserver;
 	}
@@ -92,5 +116,28 @@ public class Artifact{
 	}
 	public String getDateExpires() {
 		return this.dateExpires;
+	}
+
+	@Override
+	public int compareTo(Artifact a) {
+		if(this.getArtifactId() < a.getArtifactId())
+			return -1;
+		else if(this.getArtifactId() > a.getArtifactId())
+			return 1;
+		else{
+			if(!this.getOnLoan() && a.getOnLoan())
+				return 1;
+			else if(this.getOnLoan() && !a.getOnLoan())
+				return -1;
+			else {
+				if(!this.getReserved() && a.getReserved())
+					return 1;
+				else if(this.getReserved() && !a.getReserved())
+					return -1;
+				else
+					return 0;
+			}
+		}
+//		return this.getArtifactId().compareTo(a.getArtifactId());
 	}
 }

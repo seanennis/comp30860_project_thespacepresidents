@@ -41,6 +41,7 @@
                                     <th>Title</th>
                                     <th>Date Recieved</th>
                                     <th>Return By</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,6 +50,14 @@
                                     <td th:text="${artifact.name}" />
                                     <td th:text="${artifact.DateCreated}" />
                                     <td th:text="${artifact.DateExpires}" />
+                                    <span>
+                                        <span th:if="${artifact.renewed} == false">
+                                            <td><a class="btn btn-info" th:href="@{/renew(id=${artifact.Id})}">Renew</a></td>
+                                        </span>
+                                        <span th:unless="${artifact.renewed} == false">
+                                            <td><a class="btn btn-danger">Unavailable</a></td>
+                                        </span>
+                                    </span>
                                 </tr>
                             </tbody>
                         </table>

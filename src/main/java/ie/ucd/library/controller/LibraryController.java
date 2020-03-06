@@ -13,6 +13,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Controller;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import java.time.format.DateTimeFormatter;
@@ -102,7 +103,10 @@ public class LibraryController {
     @PostMapping("/search")
     public String search(@RequestParam(name="search") String search, Model model) {
         List<Artifact> artifacts = artifactRepository.findAll();
+        Collections.sort(artifacts);
+        removeDuplicates(artifacts);
         List<Artifact> searchResults = new ArrayList<Artifact>();
+
         for(Artifact artifact : artifacts)
             if(artifact.getType().toLowerCase().contains(search.toLowerCase()) || artifact.getName().toLowerCase().contains(search.toLowerCase()) )
                 searchResults.add(artifact);
@@ -121,7 +125,9 @@ public class LibraryController {
     @GetMapping("/search")
     public String searchGet(@RequestParam(name="search") String search, Model model) {
         List<Artifact> artifacts = artifactRepository.findAll();
-         List<Artifact> searchResults = new ArrayList<Artifact>();
+        Collections.sort(artifacts);
+        removeDuplicates(artifacts);
+        List<Artifact> searchResults = new ArrayList<Artifact>();
         for(Artifact artifact : artifacts)
             if(artifact.getType().toLowerCase().contains(search.toLowerCase()) || artifact.getName().toLowerCase().contains(search.toLowerCase()) )
                 searchResults.add(artifact);
@@ -139,7 +145,6 @@ public class LibraryController {
 
     @GetMapping("/viewLoans")
     public String getLoans(Model model) {
-        /*List<Artifact> artifacts = artifactRepository.findAll();*/
         List<Artifact> artifacts = artifactRepository.findByOwner(session.getCurrentUser().getId());
         model.addAttribute("artifacts", artifacts);
         return "viewLoans.html";
@@ -221,6 +226,18 @@ public class LibraryController {
         response.sendRedirect("/search?search="+search);
     }
 
+    @GetMapping("/renew")
+    public void renew(String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
+        Optional<Artifact> artifactOptional = artifactRepository.findById(id);
+        if(artifactOptional.isPresent()) {
+            Artifact artifact = artifactOptional.get();
+            artifact.setRenewed(true);
+            artifact.setDateExpires(LoanDate.getDate(artifact.getDateExpires(), 7));
+            artifactRepository.save(artifact);
+        }
+        response.sendRedirect("/viewLoans");
+    }
+
     void sendEmail(String emailAddress, int id) {
     	SimpleMailMessage msg = new SimpleMailMessage();
     	msg.setTo(emailAddress);
@@ -228,5 +245,56 @@ public class LibraryController {
     	msg.setText("Your unique Login ID is " + id);
 
     	javaMailSender.send(msg);
+    }
+    void removeDuplicates(List<Artifact> artifacts) {
+        int i;
+
+        for(Artifact a : artifacts)
+            System.out.println(a.getName() + ", " + a.getOnLoan() + ", " + a.getOwner());
+        System.out.println();
+
+        for(i = 0;i < artifacts.size()-1;i++) {
+            Integer owner = artifacts.get(i).getOwner();
+            Integer reserver = artifacts.get(i).getReserver();
+  
+            System.out.println("i: " + i);
+            System.out.println("Owner: " + owner + ", reserver: " + reserver);
+
+            boolean ownerFound = false;
+            boolean reserverFound = false;
+
+            if(owner != null) {
+                if(owner == session.getCurrentUserId())
+                    ownerFound = true;
+            }
+            if(reserver != null) {
+                if(reserver == session.getCurrentUserId())
+                    reserverFound = true;
+            }
+
+
+            if(ownerFound || reserverFound) {
+                System.out.println(session.getCurrentUserId());
+                int j = i;
+                while(artifacts.get(j + 1).getArtifactId() == artifacts.get(j).getArtifactId()) {
+                    Artifact temp = artifacts.get(j + 1);
+                    artifacts.set(j + 1, artifacts.get(j));
+                    artifacts.set(j, temp);
+                    j++;
+                }
+            }
+        }
+
+        for(Artifact a : artifacts)
+            System.out.println(a.getName() + ", " + a.getOnLoan());
+        System.out.println();
+
+        for(i = artifacts.size()-1;i > 0;i--)
+            if(artifacts.get(i).getArtifactId() == artifacts.get(i - 1).getArtifactId())
+                artifacts.remove(i - 1);
+
+        for(Artifact a : artifacts)
+            System.out.println(a.getName() + ", " + a.getOnLoan());
+        System.out.println();
     }
 }

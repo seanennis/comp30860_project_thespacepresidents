@@ -14,5 +14,7 @@ public class Session {
 	public User getCurrentUser() {
 		return this.currentUser;
 	}
-
+	public int getCurrentUserId() {
+		return this.currentUser.getId();
+	}
 }
