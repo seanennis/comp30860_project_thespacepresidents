@@ -104,7 +104,14 @@ public class LibraryController {
     public String search(@RequestParam(name="search") String search, Model model) {
         List<Artifact> artifacts = artifactRepository.findAll();
         Collections.sort(artifacts);
-        removeDuplicates(artifacts);
+        if(session.getCurrentUser() == null) {   
+            model.addAttribute("isLibrarian", false);
+            removeDuplicates(artifacts, false);
+        }
+        else {
+            removeDuplicates(artifacts, true);
+            model.addAttribute("isLibrarian", session.getCurrentUser().isLibrarian());
+        }
         List<Artifact> searchResults = new ArrayList<Artifact>();
 
         for(Artifact artifact : artifacts)
@@ -113,7 +120,6 @@ public class LibraryController {
 
         model.addAttribute("artifacts", searchResults);
         model.addAttribute("searchQuery", search);
-        model.addAttribute("isLibrarian", session.getCurrentUser().isLibrarian());
         if(session.getCurrentUser() == null)
             model.addAttribute("loggedIn", "false");
         else
@@ -126,7 +132,10 @@ public class LibraryController {
     public String searchGet(@RequestParam(name="search") String search, Model model) {
         List<Artifact> artifacts = artifactRepository.findAll();
         Collections.sort(artifacts);
-        removeDuplicates(artifacts);
+        if(session.getCurrentUser() == null)
+            removeDuplicates(artifacts, false);
+        else
+            removeDuplicates(artifacts, true);
         List<Artifact> searchResults = new ArrayList<Artifact>();
         for(Artifact artifact : artifacts)
             if(artifact.getType().toLowerCase().contains(search.toLowerCase()) || artifact.getName().toLowerCase().contains(search.toLowerCase()) )
@@ -246,55 +255,58 @@ public class LibraryController {
 
     	javaMailSender.send(msg);
     }
-    void removeDuplicates(List<Artifact> artifacts) {
+    void removeDuplicates(List<Artifact> artifacts, boolean loggedIn) {
         int i;
 
-        for(Artifact a : artifacts)
+        /*for(Artifact a : artifacts)
             System.out.println(a.getName() + ", " + a.getOnLoan() + ", " + a.getOwner());
-        System.out.println();
+        System.out.println();*/
 
-        for(i = 0;i < artifacts.size()-1;i++) {
-            Integer owner = artifacts.get(i).getOwner();
-            Integer reserver = artifacts.get(i).getReserver();
-  
-            System.out.println("i: " + i);
-            System.out.println("Owner: " + owner + ", reserver: " + reserver);
+        if(loggedIn) {
+            for(i = 0;i < artifacts.size()-1;i++) {
+                Integer owner = artifacts.get(i).getOwner();
+                Integer reserver = artifacts.get(i).getReserver();
+      
+                /*System.out.println("i: " + i);
+                System.out.println("Owner: " + owner + ", reserver: " + reserver);*/
 
-            boolean ownerFound = false;
-            boolean reserverFound = false;
+                boolean ownerFound = false;
+                boolean reserverFound = false;
 
-            if(owner != null) {
-                if(owner == session.getCurrentUserId())
-                    ownerFound = true;
-            }
-            if(reserver != null) {
-                if(reserver == session.getCurrentUserId())
-                    reserverFound = true;
-            }
+                if(owner != null) {
+                    if(owner == session.getCurrentUserId())
+                        ownerFound = true;
+                }
+                if(reserver != null) {
+                    if(reserver == session.getCurrentUserId())
+                        reserverFound = true;
+                }
 
 
-            if(ownerFound || reserverFound) {
-                System.out.println(session.getCurrentUserId());
-                int j = i;
-                while(artifacts.get(j + 1).getArtifactId() == artifacts.get(j).getArtifactId()) {
-                    Artifact temp = artifacts.get(j + 1);
-                    artifacts.set(j + 1, artifacts.get(j));
-                    artifacts.set(j, temp);
-                    j++;
+                if(ownerFound || reserverFound) {
+                    System.out.println(session.getCurrentUserId());
+                    int j = i;
+                    while(artifacts.get(j + 1).getArtifactId() == artifacts.get(j).getArtifactId()) {
+                        Artifact temp = artifacts.get(j + 1);
+                        artifacts.set(j + 1, artifacts.get(j));
+                        artifacts.set(j, temp);
+                        j++;
+                    }
                 }
             }
         }
 
-        for(Artifact a : artifacts)
+
+        /*for(Artifact a : artifacts)
             System.out.println(a.getName() + ", " + a.getOnLoan());
-        System.out.println();
+        System.out.println();*/
 
         for(i = artifacts.size()-1;i > 0;i--)
             if(artifacts.get(i).getArtifactId() == artifacts.get(i - 1).getArtifactId())
                 artifacts.remove(i - 1);
 
-        for(Artifact a : artifacts)
+        /*for(Artifact a : artifacts)
             System.out.println(a.getName() + ", " + a.getOnLoan());
-        System.out.println();
+        System.out.println();*/
     }
 }
