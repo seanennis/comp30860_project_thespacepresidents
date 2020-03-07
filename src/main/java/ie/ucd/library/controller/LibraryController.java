@@ -100,6 +100,26 @@ public class LibraryController {
         return "addArtifact.html";
     }
 
+    @GetMapping("/searchUsers")
+    public String searchUsers() {
+        return "searchUsers";   
+    }
+
+    @PostMapping("/searchUserResult")
+    public String user(@RequestParam(name="search") String search, Model model) {
+        List<User> users = userRepository.findAll();
+        List<User> searchResults = new ArrayList<User>();
+
+        for(User user : users)
+            if(user.getName().toLowerCase().contains(search.toLowerCase()) && !user.isLibrarian())
+                searchResults.add(user);
+
+        model.addAttribute("users", searchResults);
+
+        return "searchUsersResults.html";
+
+    }
+
     @PostMapping("/search")
     public String search(@RequestParam(name="search") String search, Model model) {
         List<Artifact> artifacts = artifactRepository.findAll();
@@ -195,6 +215,28 @@ public class LibraryController {
         User u = session.getCurrentUser();
         model.addAttribute("user", u);
         return "edit.html";
+    }
+
+    @GetMapping("/editUser")
+    public String edit(@RequestParam(name="id") int id, Model model) {
+        Optional<User> user = userRepository.findById(id);
+        model.addAttribute("user", user.get());
+        return "editUser.html";
+    }
+
+    @PostMapping("/editUser")
+    public void edit(@RequestParam(name="id") int id, @RequestParam(name="name") String name, @RequestParam(name="password") String password, @RequestParam(name="email") String email,
+     @RequestParam(name="dob") String dob, HttpServletResponse response) throws Exception {
+
+        Optional<User> userOptional = userRepository.findById(id);
+        User user = userOptional.get();
+        user.setName(name);
+        user.setPassword(password);
+        user.setEmail(email);
+        user.setDateOfBirth(dob);
+        userRepository.save(user);
+
+        response.sendRedirect("/user");
     }
 
     @GetMapping("/takeOutLoan")
