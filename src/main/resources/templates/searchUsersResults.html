@@ -46,6 +46,8 @@
                                     <td style="color: white;"  th:text="${user.id}" />
                                     <td style="color: white;"  th:text="${user.name}" />
                                     <td><a class="btn btn-info" th:href="@{/editUser(id=${user.id})}">Edit Info</a></td>
+                                    <td><a class="btn btn-info" th:href="@{/viewLoans(id=${user.id})}">Current Loans</a></td>
+                                    <td><a class="btn btn-info" th:href="@{/loanHistory(id=${user.id})}">Loan History</a></td>
                                     <!-- <span th:if="${loggedIn != 'false'}">
                                         <span th:if="${artifact.OnLoan} == false">
                                             <td><a class="btn btn-info" th:href="@{/takeOutLoan(search=${searchQuery}, id=${artifact.Id})}">Take Out</a></td>

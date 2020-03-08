@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
-import org.springframework.stereotype.Controller;
 
 import java.util.Collections;
 import java.util.List;
@@ -30,11 +30,14 @@ public class LibraryController {
 	@Autowired private JavaMailSender javaMailSender;
     @Autowired private UserRepository userRepository;
     @Autowired private ArtifactRepository artifactRepository;
-    @Autowired private Session session;
+    @Autowired protected Session session;
     @Autowired private LoanRepository loanRepository;
 
-    @GetMapping("/")
-    public String home(Model model) {
+    @ControllerAdvice
+    public class LibraryControllerAdvice {
+
+      @ModelAttribute
+      public void getNavBar(Model model) {
         if(session.getCurrentUser() == null) {
             model.addAttribute("loggedIn", "false");
             model.addAttribute("isLibrarian", "false");
@@ -42,6 +45,11 @@ public class LibraryController {
         else {
             model.addAttribute("isLibrarian", session.getCurrentUser().isLibrarian());
         }
+      }
+    }
+
+    @GetMapping("/")
+    public String home(Model model) {
     	return "home.html";
     }
 
@@ -174,6 +182,13 @@ public class LibraryController {
     @GetMapping("/viewLoans")
     public String getLoans(Model model) {
         List<Artifact> artifacts = artifactRepository.findByOwner(session.getCurrentUser().getId());
+        model.addAttribute("artifacts", artifacts);
+        return "viewLoans.html";
+    }
+
+    @GetMapping("/viewUserLoans")
+    public String getUserLoans(@RequestParam(name="id") int id, Model model) {
+        List<Artifact> artifacts = artifactRepository.findByOwner(id);
         model.addAttribute("artifacts", artifacts);
         return "viewLoans.html";
     }
