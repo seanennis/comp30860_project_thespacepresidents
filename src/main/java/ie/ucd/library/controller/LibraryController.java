@@ -81,7 +81,6 @@ public class LibraryController {
     public String userGet(Model model) {
         User u = session.getCurrentUser();
         model.addAttribute("user", u);
-        System.out.println(session.getCurrentUser().isLibrarian());
         model.addAttribute("isLibrarian", session.getCurrentUser().isLibrarian());
         return "user.html";
     }
@@ -184,7 +183,6 @@ public class LibraryController {
         /*List<Artifact> artifacts = artifactRepository.findAll();*/
         List<Loan> loans = loanRepository.findByOwner(session.getCurrentUser().getId());
         List<Loan> loanHistory = new ArrayList<>();
-        System.out.println();
         for(Loan loan : loans) {
             if(!loan.getActive())
                 loanHistory.add(loan);
