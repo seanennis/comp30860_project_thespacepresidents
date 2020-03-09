@@ -311,6 +311,24 @@ public class LibraryController {
         response.sendRedirect("/search?search="+search);
     }
 
+    @GetMapping("/returnLoan")
+    public void returnLoan(String search, @RequestParam(name="id") int id, @RequestParam(name="owner") int owner, HttpServletResponse response) throws Exception {
+        Optional<Artifact> artifactOptional = artifactRepository.findById(id);
+        List<Loan> loans = loanRepository.findByOwner(session.getCurrentUser().getId());
+        if(artifactOptional.isPresent()) {
+            Artifact artifact = artifactOptional.get();
+            artifact.setOnLoan(false);
+            artifact.setReserver(null);
+            artifact.setReserved(false);
+            loans.setActive(false);
+           // artifact.setOwner(null);
+            //setDateExpires
+            artifactRepository.save(artifact);
+            loanRepository.save(loans);
+        }
+        response.sendRedirect("/viewLoans");
+    }
+
     @GetMapping("/renew")
     public void renew(String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
         Optional<Artifact> artifactOptional = artifactRepository.findById(id);
