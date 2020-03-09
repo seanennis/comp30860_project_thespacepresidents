@@ -283,7 +283,7 @@ public class LibraryController {
             artifact.setOnLoan(true);
             artifact.setDateCreated(loanDate.getLoanDate());
             artifact.setDateExpires(loanDate.getReturnDate());
-            Loan loan = new Loan(artifact.getOwner(), artifact.getName(), artifact.getDateCreated(), artifact.getDateExpires(), artifact.getType());
+            Loan loan = new Loan(artifact.getOwner(), artifact.getId(), artifact.getName(), artifact.getDateCreated(), artifact.getDateExpires(), artifact.getType());
             artifactRepository.save(artifact);
             loanRepository.save(loan);
         }
@@ -312,20 +312,25 @@ public class LibraryController {
     }
 
     @GetMapping("/returnLoan")
-    public void returnLoan(String search, @RequestParam(name="id") int id, @RequestParam(name="owner") int owner, HttpServletResponse response) throws Exception {
+    public void returnLoan(String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
         Optional<Artifact> artifactOptional = artifactRepository.findById(id);
-        List<Loan> loans = loanRepository.findByOwner(session.getCurrentUser().getId());
         if(artifactOptional.isPresent()) {
             Artifact artifact = artifactOptional.get();
+            List<Loan> loans = loanRepository.findByArtifactAndOwner(id, artifact.getOwner());
+            for(Loan loan : loans) {
+                if(loan.getActive())
+                    loan.setActive(false);
+                    loanRepository.save(loan);
+                    break;
+            }
             artifact.setOnLoan(false);
             artifact.setReserver(null);
             artifact.setReserved(false);
-            loans.setActive(false);
            // artifact.setOwner(null);
             //setDateExpires
             artifactRepository.save(artifact);
-            loanRepository.save(loans);
         }
+        System.out.println("Shit");
         response.sendRedirect("/viewLoans");
     }
 

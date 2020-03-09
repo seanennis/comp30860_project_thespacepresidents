@@ -12,6 +12,7 @@ import javax.persistence.Table;
 public class Loan{
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY) private int id; 
 	@Column(name="owner") private Integer owner;
+	@Column(name="artifactid") private int artifactID;
 	@Column(name="artifact") private String artifact;
 	@Column(name="artifacttype") private String artifactType;
 	@Column(name="datecreated") private String dateCreated;
@@ -22,8 +23,9 @@ public class Loan{
 		this.active = true;
 	}
 
-	public Loan(Integer owner, String artifact, String dateCreated, String dateExpired, String artifactType) {
+	public Loan(Integer owner, int artifactID, String artifact, String dateCreated, String dateExpired, String artifactType) {
 		this.owner = owner;
+		this.artifactID = artifactID;
 		this.artifact = artifact;
 		this.artifactType = artifactType;
 		this.dateCreated = dateCreated;
@@ -36,6 +38,12 @@ public class Loan{
 	}
 	public int getOwner(){
 		return owner;
+	}
+	public void setArtifactID(int artifactID) {
+		this.artifactID = artifactID;
+	}
+	public int getArtifactID(){
+		return artifactID;
 	}
 	public void setArtifact(String artifact) {
 		this.artifact = artifact;

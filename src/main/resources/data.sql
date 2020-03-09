@@ -9,8 +9,8 @@ INSERT INTO artifacts(artifact_id, name, type, onLoan, owner, reserved, renewed,
 INSERT INTO artifacts(artifact_id, name, type, onLoan, owner, reserved, renewed, reserver, datecreated, dateexpires) VALUES(6, 'Harry Potter 6', 'Book', FALSE, null, FALSE, FALSE, FALSE, '04/03/2020', '11/03/2020');
 INSERT INTO artifacts(artifact_id, name, type, onLoan, owner, reserved, renewed, reserver, datecreated, dateexpires) VALUES(7, 'Harry Potter 7', 'Movie', FALSE, null, FALSE, FALSE, FALSE, '04/03/2020', '11/03/2020');
 
-INSERT INTO loans(owner, artifact, artifactType, dateCreated, dateExpired, active) VALUES(1, 'Populous', 'Video Game', '20/01/2020', '27/01/2020', FALSE);
-INSERT INTO loans(owner, artifact, artifactType, dateCreated, dateExpired, active) VALUES(1, 'Baldurs Gate', 'Video Game', '10/02/2020', '17/02/2020', FALSE);
+INSERT INTO loans(owner, artifactid, artifact, artifactType, dateCreated, dateExpired, active) VALUES(1, 100, 'Populous', 'Video Game', '20/01/2020', '27/01/2020', FALSE);
+INSERT INTO loans(owner, artifactid, artifact, artifactType, dateCreated, dateExpired, active) VALUES(1, 200, 'Baldurs Gate', 'Video Game', '10/02/2020', '17/02/2020', FALSE);
 
 INSERT INTO users(name, email, password, dob, islibrarian) VALUES('Luke Murphy', 'murphyluke01@gmail.com', 'p', '22/04/1999', FALSE);
 INSERT INTO users(name, email, password, dob, islibrarian) VALUES('Luke Murphy', 'murphyluke01@gmail.com', 'p', '22/04/1999', FALSE);

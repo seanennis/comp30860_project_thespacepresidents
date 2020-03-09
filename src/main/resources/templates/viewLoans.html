@@ -57,10 +57,8 @@
                                         <span th:unless="${artifact.renewed} == false">
                                             <td><a class="btn btn-danger">Unavailable</a></td>
                                         </span>
-                                    <span>
-                                        <td><a class="btn btn-info" th:href="@{/returnLoan(id=${artifact.Id})}">Return</a></td>
                                     </span>
-                                </span>
+                                    <td><a class="btn btn-info" th:href="@{/returnLoan(id=${artifact.Id})}">Return</a></td>
                                 </tr>
                             </tbody>
                         </table>
