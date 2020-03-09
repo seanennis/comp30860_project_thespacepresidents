@@ -30,7 +30,7 @@ public class LibraryController {
 	@Autowired private JavaMailSender javaMailSender;
     @Autowired private UserRepository userRepository;
     @Autowired private ArtifactRepository artifactRepository;
-    @Autowired protected Session session;
+    @Autowired private Session session;
     @Autowired private LoanRepository loanRepository;
 
     @ControllerAdvice
@@ -81,7 +81,7 @@ public class LibraryController {
         User newUser = new User(name, password, email, dob);
         userRepository.save(newUser);
         session.setUser(newUser);
-//        sendEmail(email, newUser.getId());
+        sendEmail(email, newUser.getId());
         response.sendRedirect("/user");
     }
 
@@ -193,10 +193,31 @@ public class LibraryController {
         return "viewLoans.html";
     }
 
+    @GetMapping("/viewUserLoansString")
+    public String getUserLoansString(@RequestParam(name="id") String id, Model model) {
+        int idInt = Integer.parseInt(id);
+        List<Artifact> artifacts = artifactRepository.findByOwner(idInt);
+        model.addAttribute("artifacts", artifacts);
+        return "viewLoans.html";
+    }
+
     @GetMapping("/loanHistory")
     public String getLoanHistory(Model model) {
         /*List<Artifact> artifacts = artifactRepository.findAll();*/
         List<Loan> loans = loanRepository.findByOwner(session.getCurrentUser().getId());
+        List<Loan> loanHistory = new ArrayList<>();
+        for(Loan loan : loans) {
+            if(!loan.getActive())
+                loanHistory.add(loan);
+        }
+        model.addAttribute("loans", loanHistory);
+        return "loanHistory.html";
+    }
+
+    @GetMapping("/userLoanHistory")
+    public String getUserLoanHistory(@RequestParam(name="id") int id, Model model) {
+        /*List<Artifact> artifacts = artifactRepository.findAll();*/
+        List<Loan> loans = loanRepository.findByOwner(id);
         List<Loan> loanHistory = new ArrayList<>();
         for(Loan loan : loans) {
             if(!loan.getActive())
@@ -293,13 +314,19 @@ public class LibraryController {
     @GetMapping("/renew")
     public void renew(String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
         Optional<Artifact> artifactOptional = artifactRepository.findById(id);
+        Integer userID = new Integer(null);
         if(artifactOptional.isPresent()) {
             Artifact artifact = artifactOptional.get();
             artifact.setRenewed(true);
             artifact.setDateExpires(LoanDate.getDate(artifact.getDateExpires(), 7));
             artifactRepository.save(artifact);
+            userID = artifact.getOwner();
         }
-        response.sendRedirect("/viewLoans");
+        if(session.getCurrentUser().isLibrarian() && userID != null) {
+            response.sendRedirect("/viewUserLoansString?id="+userID.intValue());
+        }
+        else
+            response.sendRedirect("/viewLoans");
     }
 
     void sendEmail(String emailAddress, int id) {
@@ -339,7 +366,6 @@ public class LibraryController {
 
 
                 if(ownerFound || reserverFound) {
-                    System.out.println(session.getCurrentUserId());
                     int j = i;
                     while(artifacts.get(j + 1).getArtifactId() == artifacts.get(j).getArtifactId()) {
                         Artifact temp = artifacts.get(j + 1);
