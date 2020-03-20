@@ -312,11 +312,12 @@ public class LibraryController {
     }
 
     @GetMapping("/returnLoan")
-    public void returnLoan(String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
-        Optional<Artifact> artifactOptional = artifactRepository.findById(id);
+    public void returnLoan(@RequestParam(name="id") String id, HttpServletResponse response) throws Exception {
+        System.out.println("Shit");
+        Optional<Artifact> artifactOptional = artifactRepository.findById(Integer.parseInt(id));
         if(artifactOptional.isPresent()) {
             Artifact artifact = artifactOptional.get();
-            List<Loan> loans = loanRepository.findByArtifactAndOwner(id, artifact.getOwner());
+            List<Loan> loans = loanRepository.findByArtifactAndOwner(Integer.parseInt(id), artifact.getOwner());
             for(Loan loan : loans) {
                 if(loan.getActive())
                     loan.setActive(false);
@@ -330,14 +331,13 @@ public class LibraryController {
             //setDateExpires
             artifactRepository.save(artifact);
         }
-        System.out.println("Shit");
         response.sendRedirect("/viewLoans");
     }
 
     @GetMapping("/renew")
     public void renew(String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
         Optional<Artifact> artifactOptional = artifactRepository.findById(id);
-        Integer userID = new Integer(null);
+        Integer userID = null;
         if(artifactOptional.isPresent()) {
             Artifact artifact = artifactOptional.get();
             artifact.setRenewed(true);
