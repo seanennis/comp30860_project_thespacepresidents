@@ -31,6 +31,38 @@
             <div class="row">
                 <div class="col-lg-12">&nbsp;</div>
             </div>
+            <div class="modal fade" id="userID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <div class="row">
+                            <div class="col-lg-1">&nbsp;</div>
+                            <div class="col-lg-9">
+                                <h3 class="modal-title font-weight-bold">Enter User ID</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <form action="/takeOutUserLoan" method="GET">
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <div class="col-lg-3">&nbsp;</div>
+                            <div class="col-lg-6">
+                                <input type="text" name="id" style="width:200px" class="form-control"></input>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">&nbsp;</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5">&nbsp;</div>
+                            <div class="col-lg-4">
+                                <button type="submit" class="btn btn-info" >Enter</button>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
             <form method="GET">
                 <div class="row">
                     <div class="col-lg-12 align-self-center">
@@ -55,33 +87,24 @@
                                             <td><a class="btn btn-info" th:href="@{/takeOutLoan(search=${searchQuery}, id=${artifact.Id})}">Take Out</a></td>
                                         </span>
                                         <span th:unless="${isLibrarian} == false">
-<<<<<<< HEAD
-                                            <td><a class="btn btn-info" th:href="@{/userID(id=${artifact.Id})}">Take Out</a></td>
-=======
-                                            <td><a class="btn btn-info" th:href="@{/saveArtifactID(search=${searchQuery}, id=${artifact.Id})}" data-toggle="modal" data-target="#userID">Take Out L</a></td>
->>>>>>> 07896b8b64617f9392b599107b6c974b5657815a
+                                            <td><a class="btn btn-info" th:href="@{/saveArtifactID(search=${searchQuery}, id=${artifact.Id})}" data-toggle="modal" data-target="#userID">Take Out</a></td>
                                         </span>
                                     </span>
                                     <span th:unless="${artifact.OnLoan} == false">
-                                        <td><a class="btn btn-danger">Unavailable</a></td>
+                                        <td><a class="btn btn-warning">Unavailable</a></td>
                                     </span>
 
                                     <!-- Button for reserving -->
                                     <span th:if="${artifact.Reserved} == false and ${artifact.OnLoan} == true">
                                         <span th:if="${currentUser} != ${artifact.owner}">
-                                            <span th:if="${isLibrarian} == false">
-                                                <td><a class="btn btn-info" th:href="@{/reserve(search=${searchQuery}, id=${artifact.Id})}">Reserve</a></td>
-                                            </span>
-                                            <span th:unless="${isLibrarian} == false">
-                                                <td><a class="btn btn-info" th:href="@{/userIDReserve(id=${artifact.Id})}">Reserve</a></td>
-                                            </span>
+                                            <td><a class="btn btn-info" th:href="@{/reserve(search=${searchQuery}, id=${artifact.Id})}">Reserve</a></td>
                                         </span>
                                         <span th:unless="${currentUser} != ${artifact.owner}">
                                             <td><a class="btn btn-warning">Unavailable</a></td>
                                         </span>
                                     </span>
                                     <span th:unless="${artifact.Reserved} == false and ${artifact.OnLoan} == true">
-                                        <td><a class="btn btn-danger">Unavailable</a></td>
+                                        <td><a class="btn btn-warning">Unavailable</a></td>
                                     </span>
                                     <span th:if="${isLibrarian} == true">
                                     <td><a class="btn btn-danger" th:href="@{/delete(search=${searchQuery}, id=${artifact.Id})}">Delete</a></td>
