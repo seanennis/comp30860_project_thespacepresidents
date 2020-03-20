@@ -63,12 +63,19 @@ public class LibraryController {
     }
     @PostMapping("/login")
     public void loginPost(@RequestParam(name="username")String username, @RequestParam(name="password") String password, HttpServletResponse response, Model model) throws Exception {
-        Optional<User> user = userRepository.findByIdAndPassword(Integer.parseInt(username), password);
-        if(user.isPresent()) {
-            session.setUser(user.get());
-            model.addAttribute("isLibrarian", user.get().isLibrarian());
-            response.sendRedirect("/user");
-        }
+    	try {
+        	Optional<User> user = userRepository.findByIdAndPassword(Integer.parseInt(username), password);
+	        if(user.isPresent()) {
+	            session.setUser(user.get());
+	            model.addAttribute("isLibrarian", user.get().isLibrarian());
+	            response.sendRedirect("/user");
+	        }
+	        else
+	        	response.sendRedirect("/login");
+    	}
+    	catch(NumberFormatException e) {
+    		response.sendRedirect("/login");
+    	}
     }
 
     @GetMapping("/register")

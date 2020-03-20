@@ -87,7 +87,7 @@
                                             <td><a class="btn btn-info" th:href="@{/takeOutLoan(search=${searchQuery}, id=${artifact.Id})}">Take Out</a></td>
                                         </span>
                                         <span th:unless="${isLibrarian} == false">
-                                            <td><a class="btn btn-info" th:href="@{/saveArtifactID(search=${searchQuery}, id=${artifact.Id})}" data-toggle="modal" data-target="#userID">Take Out</a></td>
+                                            <td><a class="btn btn-info" th:href="@{/saveArtifactID(search=${searchQuery}, id=${artifact.Id})}" data-toggle="modal" data-target="#userID">Take Out L</a></td>
                                         </span>
                                     </span>
                                     <span th:unless="${artifact.OnLoan} == false">
