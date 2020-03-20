@@ -100,7 +100,7 @@
                                             <td><a class="btn btn-info" th:href="@{/reserve(search=${searchQuery}, id=${artifact.Id})}">Reserve</a></td>
                                         </span>
                                         <span th:unless="${currentUser} != ${artifact.owner}">
-                                            <td><a class="btn btn-danger">Unavailable</a></td>
+                                            <td><a class="btn btn-warning">Unavailable</a></td>
                                         </span>
                                     </span>
                                     <span th:unless="${artifact.Reserved} == false and ${artifact.OnLoan} == true">
