@@ -32,6 +32,8 @@ public class LibraryController {
     @Autowired private ArtifactRepository artifactRepository;
     @Autowired private Session session;
     @Autowired private LoanRepository loanRepository;
+    private String currentSearch;
+    private int takeOutArtifactID;
 
     @ControllerAdvice
     public class LibraryControllerAdvice {
@@ -129,6 +131,7 @@ public class LibraryController {
 
     @PostMapping("/search")
     public String search(@RequestParam(name="search") String search, Model model) {
+        this.currentSearch = search;
         List<Artifact> artifacts = artifactRepository.findAll();
         Collections.sort(artifacts);
         if(session.getCurrentUser() == null) {   
@@ -149,14 +152,17 @@ public class LibraryController {
         model.addAttribute("searchQuery", search);
         if(session.getCurrentUser() == null)
             model.addAttribute("loggedIn", "false");
-        else
+        else{
             model.addAttribute("currentUser", session.getCurrentUser().getId());
+            model.addAttribute("isLibrarian", session.getCurrentUser().isLibrarian());
+        }
 
     	return "searchResults.html";
     }
 
     @GetMapping("/search")
     public String searchGet(@RequestParam(name="search") String search, Model model) {
+        this.currentSearch = search;
         List<Artifact> artifacts = artifactRepository.findAll();
         Collections.sort(artifacts);
         if(session.getCurrentUser() == null)
@@ -173,8 +179,10 @@ public class LibraryController {
         model.addAttribute("isLibrarian", session.getCurrentUser().isLibrarian());
         if(session.getCurrentUser() == null)
             model.addAttribute("loggedIn", "false");
-        else
+        else{
             model.addAttribute("currentUser", session.getCurrentUser().getId());
+            model.addAttribute("isLibrarian", session.getCurrentUser().isLibrarian());
+        }
 
         return "searchResults.html";
     }
@@ -288,6 +296,36 @@ public class LibraryController {
             loanRepository.save(loan);
         }
         response.sendRedirect("/search?search="+search);
+    }
+
+    @GetMapping("/saveArtifactID")
+    public void saveArtifactID(@RequestParam(name="search") String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
+        this.takeOutArtifactID = id;
+        System.out.println(id);
+        response.sendRedirect("/search?search="+search);
+    }
+
+    @GetMapping("/takeOutUserLoan")
+    public void takeOutUserLoan(@RequestParam(name="id") String userID, HttpServletResponse response) throws Exception {
+        int id = Integer.parseInt(userID);
+        System.out.println(id);
+        System.out.println(this.takeOutArtifactID);
+        Optional<User> userOptional = userRepository.findById(id);
+        User user = userOptional.get();
+        Optional<Artifact> artifactOptional = artifactRepository.findById(this.takeOutArtifactID);
+        LoanDate loanDate = new LoanDate();
+        if(artifactOptional.isPresent()) {
+            Artifact artifact = artifactOptional.get();
+            artifact.setOwner(user.getId());
+            System.out.println(artifact.getId());
+            artifact.setOnLoan(true);
+            artifact.setDateCreated(loanDate.getLoanDate());
+            artifact.setDateExpires(loanDate.getReturnDate());
+            Loan loan = new Loan(artifact.getOwner(), artifact.getId(), artifact.getName(), artifact.getDateCreated(), artifact.getDateExpires(), artifact.getType());
+            artifactRepository.save(artifact);
+            loanRepository.save(loan);
+        }
+        response.sendRedirect("/search?search="+this.currentSearch);
     }
 
     @GetMapping("/delete")
