@@ -1,0 +1,89 @@
+<html>
+    <head>
+        <title>Search Results</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}">
+        <link rel="icon" th:href="@{/images/logo.png}">
+        <style type="text/css">
+            .table tbody tr td {
+                font-style:italic;
+                vertical-align:middle;
+            }
+        </style>
+    </head>
+    <body  style="background-color:#343434;">
+        <div th:replace="common/navbar.html"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col-lg">
+                    <h2 style="color: white" >Results</h2>
+                </div>
+                <div class="col-lg">
+                    <a class="btn btn-info float-right" href="/">Back</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">&nbsp;</div>
+            </div>
+            <form method="GET">
+                <div class="row">
+                    <div class="col-lg-12 align-self-center">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th style="color: white;" >ID</th>
+                                    <th style="color: white;" >Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="user: ${users}">
+                                    <td style="color: white;"  th:text="${user.id}" />
+                                    <td style="color: white;"  th:text="${user.name}" />
+                                    <td><a class="btn btn-info" th:href="@{/editUser(id=${user.id})}">Edit Info</a></td>
+                                    <td><a class="btn btn-info" th:href="@{/viewUserLoans(id=${user.id})}">Current Loans</a></td>
+                                    <td><a class="btn btn-info" th:href="@{/userLoanHistory(id=${user.id})}">Loan History</a></td>
+                                    <!-- <span th:if="${loggedIn != 'false'}">
+                                        <span th:if="${artifact.OnLoan} == false">
+                                            <td><a class="btn btn-info" th:href="@{/takeOutLoan(search=${searchQuery}, id=${artifact.Id})}">Take Out</a></td>
+                                        </span>
+                                        <span th:unless="${artifact.OnLoan} == false">
+                                            <td><a class="btn btn-danger">Unavailable</a></td>
+                                        </span>
+                                        <span th:if="${artifact.Reserved} == false and ${artifact.OnLoan} == true">
+                                            <span th:if="${currentUser} != ${artifact.owner}">
+                                                <td><a class="btn btn-info" th:href="@{/reserve(search=${searchQuery}, id=${artifact.Id})}">Reserve</a></td>
+                                            </span>
+                                            <span th:unless="${currentUser} != ${artifact.owner}">
+                                                <td><a class="btn btn-danger">Unavailable</a></td>
+                                            </span>
+                                        </span>
+                                        <span th:unless="${artifact.Reserved} == false and ${artifact.OnLoan} == true">
+                                            <td><a class="btn btn-danger">Unavailable</a></td>
+                                        </span>
+                                        <span th:if="${isLibrarian} == true">>
+                                        <td><a class="btn btn-danger" th:href="@{/delete(search=${searchQuery}, id=${artifact.Id})}">Delete</a></td>
+                                        </span>
+                                    </span>
+                                    <span th:unless = "${loggedIn != 'false'}">
+                                        <td><a class="btn btn-info" href="/login">Login</a></td>
+
+                                        <td><a class="btn btn-info" href="/login">Login</a></td>
+                                    </span> -->
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+    </body>
+</html>

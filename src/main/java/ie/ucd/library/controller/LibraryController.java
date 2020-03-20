@@ -349,7 +349,6 @@ public class LibraryController {
 
     @GetMapping("/returnLoan")
     public void returnLoan(@RequestParam(name="id") String id, HttpServletResponse response) throws Exception {
-        System.out.println("Shit");
         Optional<Artifact> artifactOptional = artifactRepository.findById(Integer.parseInt(id));
         Integer userID = null;
         if(artifactOptional.isPresent()) {
