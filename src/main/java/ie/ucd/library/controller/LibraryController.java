@@ -81,10 +81,16 @@ public class LibraryController {
     public void registerPost(@RequestParam(name="name") String name, @RequestParam(name="password") String password, @RequestParam(name="email") String email,
      @RequestParam(name="dob") String dob, HttpServletResponse response) throws Exception {
         User newUser = new User(name, password, email, dob);
+        if((newUser.getEmail().contains("@")) && (newUser.getEmail().contains(".")))
+        {
         userRepository.save(newUser);
         session.setUser(newUser);
         sendEmail(email, newUser.getId());
         response.sendRedirect("/user");
+        }
+        else{
+            response.sendRedirect("/register");
+        }
     }
 
     @GetMapping("/user")
