@@ -203,7 +203,6 @@ public class LibraryController {
 
     @GetMapping("/loanHistory")
     public String getLoanHistory(Model model) {
-        /*List<Artifact> artifacts = artifactRepository.findAll();*/
         List<Loan> loans = loanRepository.findByOwner(session.getCurrentUser().getId());
         List<Loan> loanHistory = new ArrayList<>();
         for(Loan loan : loans) {
@@ -216,7 +215,6 @@ public class LibraryController {
 
     @GetMapping("/userLoanHistory")
     public String getUserLoanHistory(@RequestParam(name="id") int id, Model model) {
-        /*List<Artifact> artifacts = artifactRepository.findAll();*/
         List<Loan> loans = loanRepository.findByOwner(id);
         List<Loan> loanHistory = new ArrayList<>();
         for(Loan loan : loans) {
@@ -312,27 +310,31 @@ public class LibraryController {
     }
 
     @GetMapping("/returnLoan")
-    public void returnLoan(@RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
-        Optional<Artifact> artifactOptional = artifactRepository.findById(id);
-
-        List<Artifact> artifacts = artifactRepository.findByOwner(session.getCurrentUser().getId());
-
+    public void returnLoan(@RequestParam(name="id") String id, HttpServletResponse response) throws Exception {
+        System.out.println("Shit");
+        Optional<Artifact> artifactOptional = artifactRepository.findById(Integer.parseInt(id));
+        Integer userID = null;
         if(artifactOptional.isPresent()) {
             Artifact artifact = artifactOptional.get();
-            List<Loan> loans = loanRepository.findByArtifactIDAndOwner((int) id, (Integer) artifact.getOwner());
+            List<Loan> loans = loanRepository.findByArtifactIDAndOwner(Integer.parseInt(id), artifact.getOwner());
             for(Loan loan : loans) {
-                if(loan.getActive()) {
+                if(loan.getActive())
                     loan.setActive(false);
                     loanRepository.save(loan);
                     break;
-                }
             }
+            userID = artifact.getOwner();
             artifact.setOnLoan(false);
             artifact.setReserver(null);
             artifact.setReserved(false);
             artifact.setOwner(null);
             artifactRepository.save(artifact);
+
         }
+         if(session.getCurrentUser().isLibrarian() && userID != null) {
+           response.sendRedirect("/viewUserLoansString?id="+userID.intValue());
+        }
+        else 
         response.sendRedirect("/viewLoans");
     }
 
@@ -365,17 +367,10 @@ public class LibraryController {
     void removeDuplicates(List<Artifact> artifacts, boolean loggedIn) {
         int i;
 
-        /*for(Artifact a : artifacts)
-            System.out.println(a.getName() + ", " + a.getOnLoan() + ", " + a.getOwner());
-        System.out.println();*/
-
         if(loggedIn) {
             for(i = 0;i < artifacts.size()-1;i++) {
                 Integer owner = artifacts.get(i).getOwner();
                 Integer reserver = artifacts.get(i).getReserver();
-      
-                /*System.out.println("i: " + i);
-                System.out.println("Owner: " + owner + ", reserver: " + reserver);*/
 
                 boolean ownerFound = false;
                 boolean reserverFound = false;
@@ -402,17 +397,9 @@ public class LibraryController {
             }
         }
 
-
-        /*for(Artifact a : artifacts)
-            System.out.println(a.getName() + ", " + a.getOnLoan());
-        System.out.println();*/
-
         for(i = artifacts.size()-1;i > 0;i--)
             if(artifacts.get(i).getArtifactId() == artifacts.get(i - 1).getArtifactId())
                 artifacts.remove(i - 1);
 
-        /*for(Artifact a : artifacts)
-            System.out.println(a.getName() + ", " + a.getOnLoan());
-        System.out.println();*/
     }
 }
