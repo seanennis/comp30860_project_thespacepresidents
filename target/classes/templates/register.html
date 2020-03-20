@@ -1,24 +1,9 @@
-<<html>
+<html>
     <head>
-        <title>Log In</title>
+        <title>Register</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}">
-<<<<<<< HEAD
-=======
-
->>>>>>> 8f5b313b3d971898b576a9a61a8bace719e9e40b
         <link rel="icon" th:href="@{/images/logo.png}">
-
-        <script
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"></script>
-        <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"></script>
-<<<<<<< HEAD
-=======
-
->>>>>>> 8f5b313b3d971898b576a9a61a8bace719e9e40b
        </style>
     </head>
     <body style="background-color:#343434;">
@@ -31,34 +16,58 @@
                 <div class="col-lg-12">&nbsp;</div>
             </div>
             <div class="row">
-                <div class="col-lg-12">&nbsp;</div>
-            </div>
+           		<div class="col-lg-12">&nbsp;</div>
+        	</div>
             <div class="row">
-                <div class="col-lg-12">&nbsp;</div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">&nbsp;</div>
+                <div class="col-lg-5"></div>
+                <div class="col-lg-2">
+                    <h2 style="padding-left:5%;color: white;">Registration</h2>
+                </div>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12">&nbsp;</div>
         </div>
-        <form action="/login" method="POST">
+        <form action="/register" method="POST">
             <div class="container">
                 <div class="row">
-                     <div class="col-lg-4"></div>
+                    <div class="col-lg-4"></div>
                     <div class="col-lg-1 align-self-center">
-                        <label style="color: white;" for="title">Username:</label>
+                        <label style="color: white;" for="title">Name:</label>
                     </div>
                     <div class="col-lg-4">
-                        <input type="text" style="width:200px" name="username" class="form-control">
+                        <input type="text" style="width:200px" name="name" class="form-control">
                     </div>
                 </div>
                 <div class="row">
-            <div class="col-lg-12">&nbsp;</div>
+           			<div class="col-lg-12">&nbsp;</div>
                 </div>
-                   <div class="row">
-                     <div class="col-lg-4"></div>
+                <div class="row">
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-1 align-self-center">
+                        <label style="color: white;" for="title">Email:</label>
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="text" style="width:200px" name="email" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+           			<div class="col-lg-12">&nbsp;</div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-1 align-self-center">
+                        <label style="color: white;" for="title">DOB:</label>
+                    </div>
+                    <div class="col-lg-4">
+                        <input type="text" style="width:200px" name="dob" class="form-control">
+                    </div>
+                </div>
+                <div class="row">
+           			<div class="col-lg-12">&nbsp;</div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4"></div>
                     <div class="col-lg-1 align-self-center">
                         <label style="color: white;" for="title">Password:</label>
                     </div>
@@ -72,20 +81,8 @@
                 <div class="row">
                     <div class="col-lg-6"></div>
                     <div class="col-lg-2">
-                        <button type="submit" style="width:105px;" class="btn btn-primary">Log In</button>
+                        <button type="submit" style="width:105px" class="btn btn-primary">Register</button>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">&nbsp;</div>
-            </div>
-            <!-- <div class="row">
-                <span th:if="${wrongLogin} == null"><p>Wrong username or password</p></span>
-            </div> -->
-            <div class="row">
-                <div class="col-lg-5"></div>
-                <div class="col-lg-4">
-                    <a href="/register"> Not a Member? Sign Up Here</a>
                 </div>
             </div>
         </form>
