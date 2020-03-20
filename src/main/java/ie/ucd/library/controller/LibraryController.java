@@ -298,18 +298,23 @@ public class LibraryController {
         response.sendRedirect("/search?search="+search);
     }
 
-    @GetMapping("/saveArtifactID")
-    public void saveArtifactID(@RequestParam(name="search") String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
+    @GetMapping("/userID")
+    public String userID(@RequestParam(name="id") int id, HttpServletResponse response, Model model) throws Exception {
         this.takeOutArtifactID = id;
-        System.out.println(id);
-        response.sendRedirect("/search?search="+search);
+
+        return "userID.html";
+    }
+
+    @GetMapping("/userIDReserve")
+    public String userIDReserve(@RequestParam(name="id") int id, HttpServletResponse response, Model model) throws Exception {
+        this.takeOutArtifactID = id;
+
+        return "userIDReserve.html";
     }
 
     @GetMapping("/takeOutUserLoan")
     public void takeOutUserLoan(@RequestParam(name="id") String userID, HttpServletResponse response) throws Exception {
         int id = Integer.parseInt(userID);
-        System.out.println(id);
-        System.out.println(this.takeOutArtifactID);
         Optional<User> userOptional = userRepository.findById(id);
         User user = userOptional.get();
         Optional<Artifact> artifactOptional = artifactRepository.findById(this.takeOutArtifactID);
@@ -317,7 +322,6 @@ public class LibraryController {
         if(artifactOptional.isPresent()) {
             Artifact artifact = artifactOptional.get();
             artifact.setOwner(user.getId());
-            System.out.println(artifact.getId());
             artifact.setOnLoan(true);
             artifact.setDateCreated(loanDate.getLoanDate());
             artifact.setDateExpires(loanDate.getReturnDate());
@@ -347,6 +351,18 @@ public class LibraryController {
             artifactRepository.save(artifact);
         }
         response.sendRedirect("/search?search="+search);
+    }
+
+    @GetMapping("/reserveForUser")
+    public void reserveForUser(@RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
+        Optional<Artifact> artifactOptional = artifactRepository.findById(this.takeOutArtifactID);
+        if(artifactOptional.isPresent()) {
+            Artifact artifact = artifactOptional.get();
+            artifact.setReserver(id);
+            artifact.setReserved(true);
+            artifactRepository.save(artifact);
+        }
+        response.sendRedirect("/search?search="+this.currentSearch);
     }
 
     @GetMapping("/returnLoan")
