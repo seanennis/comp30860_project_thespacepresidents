@@ -91,7 +91,7 @@
                                         </span>
                                     </span>
                                     <span th:unless="${artifact.OnLoan} == false">
-                                        <td><a class="btn btn-danger">Unavailable</a></td>
+                                        <td><a class="btn btn-warning">Unavailable</a></td>
                                     </span>
 
                                     <!-- Button for reserving -->
@@ -104,7 +104,7 @@
                                         </span>
                                     </span>
                                     <span th:unless="${artifact.Reserved} == false and ${artifact.OnLoan} == true">
-                                        <td><a class="btn btn-danger">Unavailable</a></td>
+                                        <td><a class="btn btn-warning">Unavailable</a></td>
                                     </span>
                                     <span th:if="${isLibrarian} == true">
                                     <td><a class="btn btn-danger" th:href="@{/delete(search=${searchQuery}, id=${artifact.Id})}">Delete</a></td>

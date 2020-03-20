@@ -350,23 +350,25 @@ public class LibraryController {
     }
 
     @GetMapping("/returnLoan")
-    public void returnLoan(@RequestParam(name="id") String id, HttpServletResponse response) throws Exception {
-        System.out.println("Shit");
-        Optional<Artifact> artifactOptional = artifactRepository.findById(Integer.parseInt(id));
+    public void returnLoan(@RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
+        Optional<Artifact> artifactOptional = artifactRepository.findById(id);
+
+        List<Artifact> artifacts = artifactRepository.findByOwner(session.getCurrentUser().getId());
+
         if(artifactOptional.isPresent()) {
             Artifact artifact = artifactOptional.get();
-            List<Loan> loans = loanRepository.findByArtifactAndOwner(Integer.parseInt(id), artifact.getOwner());
+            List<Loan> loans = loanRepository.findByArtifactIDAndOwner((int) id, (Integer) artifact.getOwner());
             for(Loan loan : loans) {
-                if(loan.getActive())
+                if(loan.getActive()) {
                     loan.setActive(false);
                     loanRepository.save(loan);
                     break;
+                }
             }
             artifact.setOnLoan(false);
             artifact.setReserver(null);
             artifact.setReserved(false);
-           // artifact.setOwner(null);
-            //setDateExpires
+            artifact.setOwner(null);
             artifactRepository.save(artifact);
         }
         response.sendRedirect("/viewLoans");

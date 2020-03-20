@@ -9,11 +9,11 @@
       <a href="/user" class="text-white">Profile</a>
       <a href="/logout" class="text-white">Logout</a>
     </span>
-     <span th:if="${isLibrarian} == true">
+     <span th:if="${isLibrarian} == true and ${loggedIn != 'false'}">
       <a href="/addArtifact" class="text-white">Create Artifact</a>
       <a href="/searchUsers" class="text-white">Search Users</a>
     </span>
-    <span th:if="${isLibrarian} == false">
+    <span th:if="${isLibrarian} == false and ${loggedIn != 'false'}">
       <a href="/viewLoans" class="text-white">Current Loans</a>
       <a href="/loanHistory" class="text-white">Loan History</a>
     </span>
