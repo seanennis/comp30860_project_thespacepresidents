@@ -1,18 +1,13 @@
+<!--suppress ALL -->
 <html>
     <head>
-        <title>Log In</title>
+        <title>Add Artifact</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}">
-        <script
-        src="https://code.jquery.com/jquery-3.4.1.min.js"
-        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
-        crossorigin="anonymous"></script>
-        <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.0/dist/jquery.validate.min.js"></script>
-       </style>
+        </style>
     </head>
     <body style="background-color:#343434;">
-       <div th:replace="common/navbar.html"></div>
+        <div th:replace="common/navbar.html"></div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">&nbsp;</div>
@@ -29,31 +24,37 @@
             <div class="row">
                 <div class="col-lg-12">&nbsp;</div>
             </div>
+            <div class="row">
+                <div class="col-lg-4"></div>
+                <div class="col-lg-5">
+                    <h2 style="color: white;">Create a new Artifact</h2>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-12">&nbsp;</div>
         </div>
-        <form action="/login" method="POST">
+        <form action="/addArtifact" method="POST">
             <div class="container">
                 <div class="row">
-                     <div class="col-lg-4"></div>
+                    <div class="col-lg-4"></div>
                     <div class="col-lg-1 align-self-center">
-                        <label style="color: white;" for="title">Username:</label>
+                        <label style="color: white;" for="title">Name:</label>
                     </div>
                     <div class="col-lg-4">
-                        <input type="text" style="width:200px" name="username" class="form-control">
+                        <input type="text" style="width:200px"  name="name" class="form-control">
                     </div>
                 </div>
                 <div class="row">
-            <div class="col-lg-12">&nbsp;</div>
+                    <div class="col-lg-12">&nbsp;</div>
                 </div>
-                   <div class="row">
-                     <div class="col-lg-4"></div>
+                <div class="row">
+                    <div class="col-lg-4"></div>
                     <div class="col-lg-1 align-self-center">
-                        <label style="color: white;" for="title">Password:</label>
+                        <label style="color: white;" for="title">Type:</label>
                     </div>
                     <div class="col-lg-4">
-                        <input type="password" style="width:200px" name="password" class="form-control">
+                        <input type="text" style="width:200px"  name="type" class="form-control">
                     </div>
                 </div>
                 <div class="row">
@@ -62,17 +63,8 @@
                 <div class="row">
                     <div class="col-lg-6"></div>
                     <div class="col-lg-2">
-                        <button type="submit" style="width:105px;" class="btn btn-primary">Log In</button>
+                        <button type="submit" class="btn btn-primary float-right">Create Artifact</button>
                     </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-12">&nbsp;</div>
-            </div>
-            <div class="row">
-                <div class="col-lg-5"></div>
-                <div class="col-lg-4">
-                    <a href="/register"> Not a Member? Sign Up Here</a>
                 </div>
             </div>
         </form>
@@ -80,28 +72,4 @@
         <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     </body>
-    <script type="text/javascript">
-    $(document).ready(function() {
-        $("#loginForm").validate({
-            rules: {
-                username: {
-                    required: true,
-                    username: true
-                },
-         
-                password: "required",
-            },
-             
-            messages: {
-                username: {
-                    required: "Please enter email",
-                    username: "Please enter a valid email address"
-                },
-                 
-                password: "Please enter password"
-            }
-        });
- 
-    });
-</script>
 </html>
