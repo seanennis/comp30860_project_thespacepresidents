@@ -1,9 +1,9 @@
-
 <html>
     <head>
         <title>Search Results</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}">
+        <link rel="icon" th:href="@{/images/logo.png}">
         <style type="text/css">
             .table tbody tr td {
                 font-style:italic;
@@ -31,6 +31,38 @@
             <div class="row">
                 <div class="col-lg-12">&nbsp;</div>
             </div>
+            <div class="modal fade" id="userID" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <div class="row">
+                            <div class="col-lg-1">&nbsp;</div>
+                            <div class="col-lg-9">
+                                <h3 class="modal-title font-weight-bold">Enter User ID</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <form action="/takeOutUserLoan" method="GET">
+                        <div class="row">&nbsp;</div>
+                        <div class="row">
+                            <div class="col-lg-3">&nbsp;</div>
+                            <div class="col-lg-6">
+                                <input type="text" name="id" style="width:200px" class="form-control"></input>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-4">&nbsp;</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-5">&nbsp;</div>
+                            <div class="col-lg-4">
+                                <button type="submit" class="btn btn-info" >Enter</button>
+                            </div>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
             <form method="GET">
                 <div class="row">
                     <div class="col-lg-12 align-self-center">
@@ -51,7 +83,12 @@
                                 <span th:if="${loggedIn != 'false'}">
                                     <!-- Button for taking pout loan -->
                                     <span th:if="${artifact.OnLoan} == false">
-                                        <td><a class="btn btn-info" th:href="@{/takeOutLoan(search=${searchQuery}, id=${artifact.Id})}">Take Out</a></td>
+                                        <span th:if="${isLibrarian} == false">
+                                            <td><a class="btn btn-info" th:href="@{/takeOutLoan(search=${searchQuery}, id=${artifact.Id})}">Take Out</a></td>
+                                        </span>
+                                        <span th:unless="${isLibrarian} == false">
+                                            <td><a class="btn btn-info" th:href="@{/saveArtifactID(search=${searchQuery}, id=${artifact.Id})}" data-toggle="modal" data-target="#userID">Take Out</a></td>
+                                        </span>
                                     </span>
                                     <span th:unless="${artifact.OnLoan} == false">
                                         <td><a class="btn btn-warning">Unavailable</a></td>
