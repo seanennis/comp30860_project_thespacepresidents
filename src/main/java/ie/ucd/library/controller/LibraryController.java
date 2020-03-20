@@ -314,9 +314,7 @@ public class LibraryController {
     @GetMapping("/returnLoan")
     public void returnLoan(@RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
         Optional<Artifact> artifactOptional = artifactRepository.findById(id);
-
         List<Artifact> artifacts = artifactRepository.findByOwner(session.getCurrentUser().getId());
-
         if(artifactOptional.isPresent()) {
             Artifact artifact = artifactOptional.get();
             List<Loan> loans = loanRepository.findByArtifactIDAndOwner((int) id, (Integer) artifact.getOwner());
