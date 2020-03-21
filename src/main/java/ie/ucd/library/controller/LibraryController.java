@@ -376,16 +376,10 @@ public class LibraryController {
         response.sendRedirect("/search?search="+this.currentSearch);
     }
 
-    @GetMapping("/returnLoan")
-<<<<<<< HEAD
-    public void returnLoan(@RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
-        Optional<Artifact> artifactOptional = artifactRepository.findById(id);
-        List<Artifact> artifacts = artifactRepository.findByOwner(session.getCurrentUser().getId());
-=======
+     @GetMapping("/returnLoan")
     public void returnLoan(@RequestParam(name="id") String id, HttpServletResponse response) throws Exception {
         Optional<Artifact> artifactOptional = artifactRepository.findById(Integer.parseInt(id));
         Integer userID = null;
->>>>>>> 8f5b313b3d971898b576a9a61a8bace719e9e40b
         if(artifactOptional.isPresent()) {
             Artifact artifact = artifactOptional.get();
             List<Loan> loans = loanRepository.findByArtifactIDAndOwner(Integer.parseInt(id), artifact.getOwner());
@@ -409,6 +403,8 @@ public class LibraryController {
         else 
         response.sendRedirect("/viewLoans");
     }
+
+
 
     @GetMapping("/renew")
     public void renew(String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
