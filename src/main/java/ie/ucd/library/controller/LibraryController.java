@@ -356,10 +356,29 @@ public class LibraryController {
         response.sendRedirect("/search?search="+search);
     }
 
+<<<<<<< HEAD
     @GetMapping("/returnLoan")
     public void returnLoan(@RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
         Optional<Artifact> artifactOptional = artifactRepository.findById(id);
         List<Artifact> artifacts = artifactRepository.findByOwner(session.getCurrentUser().getId());
+=======
+    @GetMapping("/reserveForUser")
+    public void reserveForUser(@RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
+        Optional<Artifact> artifactOptional = artifactRepository.findById(this.takeOutArtifactID);
+        if(artifactOptional.isPresent()) {
+            Artifact artifact = artifactOptional.get();
+            artifact.setReserver(id);
+            artifact.setReserved(true);
+            artifactRepository.save(artifact);
+        }
+        response.sendRedirect("/search?search="+this.currentSearch);
+    }
+
+     @GetMapping("/returnLoan")
+    public void returnLoan(@RequestParam(name="id") String id, HttpServletResponse response) throws Exception {
+        Optional<Artifact> artifactOptional = artifactRepository.findById(Integer.parseInt(id));
+        Integer userID = null;
+>>>>>>> 099f2e0edf7d8de5f5b310f0bbd69dee0358b865
         if(artifactOptional.isPresent()) {
             Artifact artifact = artifactOptional.get();
             List<Loan> loans = loanRepository.findByArtifactIDAndOwner((int) id, (Integer) artifact.getOwner());
@@ -378,6 +397,8 @@ public class LibraryController {
         }
         response.sendRedirect("/viewLoans");
     }
+
+
 
     @GetMapping("/renew")
     public void renew(String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
