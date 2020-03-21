@@ -55,15 +55,11 @@
                                             <td><a class="btn btn-info" th:href="@{/takeOutLoan(search=${searchQuery}, id=${artifact.Id})}">Take Out</a></td>
                                         </span>
                                         <span th:unless="${isLibrarian} == false">
-<<<<<<< HEAD
                                             <td><a class="btn btn-info" th:href="@{/userID(id=${artifact.Id})}">Take Out</a></td>
-=======
-                                            <td><a class="btn btn-info" th:href="@{/saveArtifactID(search=${searchQuery}, id=${artifact.Id})}" data-toggle="modal" data-target="#userID">Take Out L</a></td>
->>>>>>> 07896b8b64617f9392b599107b6c974b5657815a
                                         </span>
                                     </span>
                                     <span th:unless="${artifact.OnLoan} == false">
-                                        <td><a class="btn btn-danger">Unavailable</a></td>
+                                        <td><a class="btn btn-warning">Unavailable</a></td>
                                     </span>
 
                                     <!-- Button for reserving -->
@@ -81,7 +77,7 @@
                                         </span>
                                     </span>
                                     <span th:unless="${artifact.Reserved} == false and ${artifact.OnLoan} == true">
-                                        <td><a class="btn btn-danger">Unavailable</a></td>
+                                        <td><a class="btn btn-warning">Unavailable</a></td>
                                     </span>
                                     <span th:if="${isLibrarian} == true">
                                     <td><a class="btn btn-danger" th:href="@{/delete(search=${searchQuery}, id=${artifact.Id})}">Delete</a></td>
