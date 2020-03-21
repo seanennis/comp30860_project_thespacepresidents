@@ -88,10 +88,17 @@ public class LibraryController {
     public void registerPost(@RequestParam(name="name") String name, @RequestParam(name="password") String password, @RequestParam(name="email") String email,
      @RequestParam(name="dob") String dob, HttpServletResponse response) throws Exception {
         User newUser = new User(name, password, email, dob);
+        if((newUser.getEmail().contains("@")) && (newUser.getEmail().contains(".")))
+        {
         userRepository.save(newUser);
         session.setUser(newUser);
         sendEmail(email, newUser.getId());
         response.sendRedirect("/user");
+        }
+        else{
+            response.sendRedirect("/register");
+        }
+
     }
 
     @GetMapping("/user")
@@ -304,19 +311,22 @@ public class LibraryController {
         }
         response.sendRedirect("/search?search="+search);
     }
-
-    @GetMapping("/saveArtifactID")
-    public void saveArtifactID(@RequestParam(name="search") String search, @RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
+ @GetMapping("/userID")
+    public String userID(@RequestParam(name="id") int id, HttpServletResponse response, Model model) throws Exception {
         this.takeOutArtifactID = id;
-        System.out.println(id);
-        response.sendRedirect("/search?search="+search);
+
+        return "userID.html";
+    }
+
+    @GetMapping("/userIDReserve")
+    public String userIDReserve(@RequestParam(name="id") int id, HttpServletResponse response, Model model) throws Exception {
+    this.takeOutArtifactID = id;
+    return "userIDReserve.html"; 
     }
 
     @GetMapping("/takeOutUserLoan")
     public void takeOutUserLoan(@RequestParam(name="id") String userID, HttpServletResponse response) throws Exception {
         int id = Integer.parseInt(userID);
-        System.out.println(id);
-        System.out.println(this.takeOutArtifactID);
         Optional<User> userOptional = userRepository.findById(id);
         User user = userOptional.get();
         Optional<Artifact> artifactOptional = artifactRepository.findById(this.takeOutArtifactID);
@@ -324,7 +334,6 @@ public class LibraryController {
         if(artifactOptional.isPresent()) {
             Artifact artifact = artifactOptional.get();
             artifact.setOwner(user.getId());
-            System.out.println(artifact.getId());
             artifact.setOnLoan(true);
             artifact.setDateCreated(loanDate.getLoanDate());
             artifact.setDateExpires(loanDate.getReturnDate());
@@ -355,27 +364,43 @@ public class LibraryController {
         }
         response.sendRedirect("/search?search="+search);
     }
-
-    @GetMapping("/returnLoan")
-    public void returnLoan(@RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
-        Optional<Artifact> artifactOptional = artifactRepository.findById(id);
-        List<Artifact> artifacts = artifactRepository.findByOwner(session.getCurrentUser().getId());
+@GetMapping("/reserveForUser")
+    public void reserveForUser(@RequestParam(name="id") int id, HttpServletResponse response) throws Exception {
+        Optional<Artifact> artifactOptional = artifactRepository.findById(this.takeOutArtifactID);
         if(artifactOptional.isPresent()) {
             Artifact artifact = artifactOptional.get();
-            List<Loan> loans = loanRepository.findByArtifactIDAndOwner((int) id, (Integer) artifact.getOwner());
+            artifact.setReserver(id);
+            artifact.setReserved(true);
+            artifactRepository.save(artifact);
+        }
+        response.sendRedirect("/search?search="+this.currentSearch);
+    }
+
+     @GetMapping("/returnLoan")
+    public void returnLoan(@RequestParam(name="id") String id, HttpServletResponse response) throws Exception {
+        Optional<Artifact> artifactOptional = artifactRepository.findById(Integer.parseInt(id));
+        Integer userID = null;
+    if(artifactOptional.isPresent()) {
+            Artifact artifact = artifactOptional.get();
+             List<Loan> loans = loanRepository.findByArtifactIDAndOwner(Integer.parseInt(id), artifact.getOwner());
             for(Loan loan : loans) {
-                if(loan.getActive()) {
+                if(loan.getActive()) 
                     loan.setActive(false);
                     loanRepository.save(loan);
                     break;
-                }
+                
             }
+            userID = artifact.getOwner();
             artifact.setOnLoan(false);
             artifact.setReserver(null);
             artifact.setReserved(false);
             artifact.setOwner(null);
             artifactRepository.save(artifact);
-        }
+             }
+            if(session.getCurrentUser().isLibrarian() && userID != null) {
+            response.sendRedirect("/viewUserLoansString?id="+userID.intValue());
+            }
+         else 
         response.sendRedirect("/viewLoans");
     }
 
