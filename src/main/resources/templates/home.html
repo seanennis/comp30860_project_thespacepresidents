@@ -3,9 +3,9 @@
         <title>Home</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
         <link rel="stylesheet" type="text/css" th:href="@{/css/common.css}">
-        <link rel="icon" th:href="@{/images/logo.png}">
+        <link rel="icon" th:href="@{/Images/logo.png}">
     </head>
-    <body th:style="'background:url(' + @{/images/space.jpg} + ') no-repeat fixed; background-size: cover;'">
+    <body th:style="'background:url(' + @{/Images/space.jpg} + ') no-repeat fixed; background-size: cover;'">
         <div th:replace="common/navbar.html"></div>
         <div class="row">&nbsp;</div>
         <div class="row">&nbsp;</div>
@@ -13,7 +13,7 @@
         <div class="row-lg">
         <div class="col-lg-6"></div>
         	<div class="col-lg-4">
-        		<img src="../static/Images/logo.png" alt="The Space Presidents" style="height:70%" "width:70%" th:src="@{/images/logo.png}">
+        		<img th:src="@{/Images/logo.png}" alt="The Space Presidents" style="height:70%" "width:70%">
         	</div>
         </div>
         <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
